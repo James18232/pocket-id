@@ -6,9 +6,7 @@ export async function GET({ request }) {
     name: "PocketID",
     icons: [
       {
-        src: logoUrl,  // Dynamically set the logo URL based on the mode
-        sizes: "180x180",
-        type: "image/png"
+        src: logoUrl
       }
     ],
     display: "standalone",
