@@ -1,0 +1,10 @@
+{
+  "name": "PocketID",
+  "icons": [
+    {
+      "src": "/logoDark-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
