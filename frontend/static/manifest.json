@@ -4,8 +4,7 @@
     {
       "src": "/logoDark-180x180.png",
       "sizes": "180x180",
-      "type": "image/png",
-      "purpose": "maskable"
+      "type": "image/png"
     }
   ],
   "display": "standalone",
