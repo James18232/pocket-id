@@ -24,6 +24,23 @@ export const cachedApplicationLogo: CachableImage = {
 	}
 };
 
+export const cachedApplicationAppleIcon: CachableImage = {
+	getUrl: (light = true) => {
+		let url = '/api/application-configuration/AppleIcon';
+		if (!light) {
+			url += '?light=false';
+		}
+		return getCachedImageUrl(url);
+	},
+	bustCache: (light = true) => {
+		let url = '/api/application-configuration/AppleIcon';
+		if (!light) {
+			url += '?light=false';
+		}
+		bustImageCache(url);
+	}
+};
+
 export const cachedBackgroundImage: CachableImage = {
 	getUrl: () => getCachedImageUrl('/api/application-configuration/background-image'),
 	bustCache: () => bustImageCache('/api/application-configuration/background-image')
