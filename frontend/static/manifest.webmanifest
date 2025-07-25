@@ -2,7 +2,7 @@
   "name": "PocketID",
   "icons": [
     {
-      "src": "/application-configuration/AppleIcon",
+      "src": "/api/application-configuration/AppleIcon",
       "sizes": "180x180",
       "type": "image/png"
     }
