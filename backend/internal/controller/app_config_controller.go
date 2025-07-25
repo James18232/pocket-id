@@ -167,16 +167,8 @@ func (acc *AppConfigController) getLogoHandler(c *gin.Context) {
 // @Router /api/application-configuration/AppleIcon [get]
 func (acc *AppConfigController) getAppleIconHandler(c *gin.Context) {
 
-	lightLogo, _ := strconv.ParseBool(c.DefaultQuery("light", "true"))
-
-	var imageName, imageType string
-	if lightLogo {
-		imageName = "AppleTouchIconLight"
-		imageType = "png"
-	} else {
-		imageName = "AppleTouchIconDark"
-		imageType = "png"
-	}
+	imageName = "AppleTouchIconLight"
+	imageType = "png"
 
 	acc.getImage(c, imageName, imageType)
 }
