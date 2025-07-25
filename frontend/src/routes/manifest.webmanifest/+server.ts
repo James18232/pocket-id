@@ -18,7 +18,7 @@ export async function GET({ request }: RequestEvent) {
 
   return new Response(JSON.stringify(manifest), {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/manifest+json'
     }
   });
 }
