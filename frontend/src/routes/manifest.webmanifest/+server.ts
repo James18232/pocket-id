@@ -1,12 +1,16 @@
 import type { RequestHandler } from './$types';
+import { getAppleIconUrl } from '$lib/utils/apple-icon-util';
+import type { RequestEvent } from '@sveltejs/kit';
+
 export const prerender = true; // this should just prerender manifest.json and not treat it as a server route
 
 export const GET: RequestHandler = async () => {
+	const logoUrl = getAppleIconUrl();
 	const manifest = {
 		name: 'PocketID',
 		icons: [
 			{
-				src: '/api/application-configuration/logo',
+				src: logoUrl,
 				sizes: 'any'
 			}
 		],
