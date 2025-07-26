@@ -6,7 +6,12 @@
       "sizes": "180x180",
       "type": "image/png",
       "purpose": "any"
-    }
+    },
+    {
+      "src": "/api/application-configuration/logo",
+      "type": "image/svg",
+      "purpose": "any"
+    },
   ],
   "display": "browser"
 }
