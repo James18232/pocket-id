@@ -1,11 +1,9 @@
 {
   "name": "PocketID",
-  "background_color": "#ffffff",
-  "theme_color": "#ffffff", 
   "icons": [
     {
       "src": "/api/application-configuration/AppleIcon",
-      "sizes": "180x180",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     }
