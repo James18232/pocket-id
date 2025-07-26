@@ -7,8 +7,8 @@ export const GET: RequestHandler = ({ url }) => {
 		name: 'PocketID',
 		icons: [
 			{
-        src: `/api/application-configuration/AppleIcon${isLight ? '' : '?light=false'}`,
-				sizes: '180x180',        sizes: '180x180',
+        			src: `/api/application-configuration/AppleIcon${isLight ? '' : '?light=false'}`,
+				sizes: '180x180',
 				type: 'image/png'
 			}
 		],
