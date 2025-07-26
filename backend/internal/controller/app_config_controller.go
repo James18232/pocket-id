@@ -165,7 +165,7 @@ func (acc *AppConfigController) getLogoHandler(c *gin.Context) {
 // @Success 200 {file} binary "Logo image"
 // @Router /api/application-configuration/AppleIcon [get]
 func (acc *AppConfigController) getAppleIconHandler(c *gin.Context) {
-	acc.getImage(c, "AppleTouchIconBlue", "png")
+	acc.getImage(c, "AppleTouchIconBlack2", "png")
 }
 
 // getFaviconHandler godoc
