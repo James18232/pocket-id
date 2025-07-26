@@ -9,5 +9,5 @@
       "purpose": "any"
     }
   ],
-  "display": "browser"
+  "display": "standalone"
 }
