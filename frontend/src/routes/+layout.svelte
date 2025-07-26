@@ -14,7 +14,7 @@
 	import '../app.css';
 	import type { LayoutData } from './$types';
 	import { onMount } from 'svelte';
-	import { getLightDark } from '$lib/utils/logo-util';
+	import { getLightDark } from '$lib/utils/logo-lightdark';
 
 	onMount(() => {
 		const isLight = getLightDark();
