@@ -170,10 +170,10 @@ func (acc *AppConfigController) getAppleIconHandler(c *gin.Context) {
 	
 	var imageName, imageType string
 	if lightLogo {
-		imageName = "logoLight"
+		imageName = "logoLightPNG"
 		imageType = "png"
 	} else {
-		imageName = "logoDark"
+		imageName = "logoDarkPNG"
 		imageType = "png"
 	}
 
