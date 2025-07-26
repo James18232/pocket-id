@@ -1,7 +1,6 @@
 import { mode } from 'mode-watcher';
-import { cachedApplicationLogo } from '$lib/utils/cached-image-util';
 
-export function getLogoUrl() {
+export function getLightDark() {
 	const isLightMode = mode.current === 'light';
-	return cachedApplicationLogo.getUrl(isLightMode);
+	return isLightMode;
 }
