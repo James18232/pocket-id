@@ -161,11 +161,23 @@ func (acc *AppConfigController) getLogoHandler(c *gin.Context) {
 // @Summary Get apple touch icon
 // @Description Get the apple touch icon for the application
 // @Tags Application Configuration
+// @Param light query boolean false "Light mode logo (true) or dark mode logo (false)"
 // @Produce image/png
 // @Success 200 {file} binary "Apple Touch Icon"
 // @Router /api/application-configuration/AppleIcon [get]
 func (acc *AppConfigController) getAppleIconHandler(c *gin.Context) {
-	acc.getImage(c, "AppleTouchIconLight", "png")
+	lightLogo, _ := strconv.ParseBool(c.DefaultQuery("light", "true"))
+	
+	var imageName, imageType string
+	if lightLogo {
+		imageName = "logoLight"
+		imageType = "png"
+	} else {
+		imageName = "logoDark"
+		imageType = "png"
+	}
+
+	acc.getImage(c, imageName, imageType)
 }
 
 // getFaviconHandler godoc
