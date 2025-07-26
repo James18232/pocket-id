@@ -9,9 +9,9 @@
     },
     {
       "src": "/api/application-configuration/logo",
-      "type": "image/svg",
+      "type": "image/svg+xml",
       "purpose": "any"
-    },
+    }
   ],
   "display": "browser"
 }
