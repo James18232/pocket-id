@@ -21,7 +21,7 @@
 		const manifestLink = document.getElementById('manifest-link') as HTMLLinkElement;
 
 		if (manifestLink) {
-			// Correct: ?light=false when in dark mode
+			// ?light=false when in dark mode
 			manifestLink.href = `/manifest.webmanifest${isLight ? '' : '?light=false'}`;
 		}
 	});
