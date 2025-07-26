@@ -13,6 +13,18 @@
 	import type { Snippet } from 'svelte';
 	import '../app.css';
 	import type { LayoutData } from './$types';
+	import { onMount } from 'svelte';
+	import { getLightDark } from '$lib/utils/logo-util';
+
+	onMount(() => {
+		const isLight = getLightDark();
+		const manifestLink = document.getElementById('manifest-link') as HTMLLinkElement;
+
+		if (manifestLink) {
+			// Correct: ?light=false when in dark mode
+			manifestLink.href = `/manifest.webmanifest${isLight ? '' : '?light=false'}`;
+		}
+	});
 
 	let {
 		data,
