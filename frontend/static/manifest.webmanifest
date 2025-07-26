@@ -10,5 +10,5 @@
       "purpose": "any"
     }
   ],
-  "display": "standalone"
+  "display": "browser"
 }
