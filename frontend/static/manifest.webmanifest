@@ -4,7 +4,8 @@
     {
       "src": "/api/application-configuration/AppleIcon",
       "sizes": "180x180",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "display": "browser"
