@@ -17,7 +17,7 @@
       "src": "/api/application-configuration/pwa-icon-svg",
       "type": "image/svg+xml",
       "purpose": "maskable monochrome"
-    },
+    }
   ],
   "display": "browser"
 }
