@@ -3,8 +3,9 @@ package common
 import (
 	"errors"
 	"fmt"
-	"log"
+	"log/slog"
 	"net/url"
+	"os"
 
 	"github.com/caarlos0/env/v11"
 	_ "github.com/joho/godotenv/autoload"
@@ -47,6 +48,7 @@ type EnvConfigSchema struct {
 	UiConfigDisabled   bool       `env:"UI_CONFIG_DISABLED"`
 	MetricsEnabled     bool       `env:"METRICS_ENABLED"`
 	TracingEnabled     bool       `env:"TRACING_ENABLED"`
+	LogJSON            bool       `env:"LOG_JSON"`
 	TrustProxy         bool       `env:"TRUST_PROXY"`
 	AnalyticsDisabled  bool       `env:"ANALYTICS_DISABLED"`
 }
@@ -56,7 +58,8 @@ var EnvConfig = defaultConfig()
 func init() {
 	err := parseEnvConfig()
 	if err != nil {
-		log.Fatalf("Configuration error: %v", err)
+		slog.Error("Configuration error", slog.Any("error", err))
+		os.Exit(1)
 	}
 }
 
