@@ -20,8 +20,7 @@
     },
     {
       "src": "/api/application-configuration/pwa-icon-svg",
-      "type": "image/svg+xml",
-      "purpose": "any"
+      "type": "image/svg+xml"
     }
   ],
   "display": "browser"
