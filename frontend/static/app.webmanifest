@@ -4,7 +4,7 @@
     {
       "src": "/api/application-configuration/pwa-icon-svg",
       "type": "image/svg+xml",
-      "purpose": "any maskable monochrome"
+      "purpose": "maskable monochrome any"
     },
     {
       "src": "/api/application-configuration/pwa-icon",
