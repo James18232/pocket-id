@@ -2,11 +2,6 @@
   "name": "{%appname%}",
   "icons": [
     {
-      "src": "/api/application-configuration/pwa-icon-svg",
-      "type": "image/svg+xml",
-      "purpose": "maskable monochrome any"
-    },
-    {
       "src": "/api/application-configuration/pwa-icon",
       "sizes": "1024x1024",
       "type": "image/png",
@@ -17,7 +12,12 @@
       "sizes": "1024x1024",
       "type": "image/png",
       "purpose": "maskable"
-    }
+    },
+    {
+      "src": "/api/application-configuration/pwa-icon-svg",
+      "type": "image/svg+xml",
+      "purpose": "maskable monochrome"
+    },
   ],
   "display": "browser"
 }
