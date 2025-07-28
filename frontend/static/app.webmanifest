@@ -14,8 +14,7 @@
       "purpose": "maskable"
     },
     {
-      "src": "/api/application-configuration/pwa-icon-svg",
-      "type": "image/svg+xml"
+      "src": "/api/application-configuration/pwa-icon-svg"
     }
   ],
   "display": "browser"
