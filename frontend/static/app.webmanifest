@@ -15,7 +15,6 @@
     },
     {
       "src": "/api/application-configuration/pwa-icon-svg",
-      "sizes": "any",
       "type": "image/svg+xml"
     }
   ],
