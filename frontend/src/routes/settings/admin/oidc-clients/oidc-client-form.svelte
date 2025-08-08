@@ -27,6 +27,8 @@
 
 	let isLoading = $state(false);
 	let showAdvancedOptions = $state(false);
+	let newClientIdInput = $state('');
+	let replaceClientIdMessage: string | null = $state(null);
 	let logo = $state<File | null | undefined>();
 	let logoDataURL: string | null = $state(
 		existingClient?.hasLogo ? cachedOidcClientLogo.getUrl(existingClient!.id) : null
@@ -102,6 +104,10 @@
 				return e;
 			});
 	}
+
+	function onReplaceClientId() {
+			replaceClientIdMessage = "(API integration TBA).";
+	}
 </script>
 
 <form onsubmit={preventDefault(onSubmit)}>
@@ -171,13 +177,23 @@
 				errors={getFederatedIdentityErrors($errors)}
 			/>
 		</div>
-		<div class="mt-5 md:col-span-2" transition:slide={{ duration: 200 }}>
-			<FederatedIdentitiesInput
-				client={existingClient}
-				bind:federatedIdentities={$inputs.credentials.value.federatedIdentities}
-				errors={getFederatedIdentityErrors($errors)}
-			/>
-		</div>
+	<div class="mt-5 md:col-span-2" transition:slide={{ duration: 200 }}>
+        <label class="block mb-2 font-medium">{m.client_id()} ({m.current()})</label>
+		<FormInput value={data.client.id} readonly />
+
+		<label for="replaceClientIdInput" class="block mb-2 font-medium">{m.client_id()} ({m.new()})</label>
+		<FormInput
+			id="replaceClientIdInput"
+			bind:input={newClientIdInput}
+			placeholder="Enter new Client ID"
+		/>
+		<Button class="mt-2" on:click={onReplaceClientId}>
+			{m.replace_client_id()}
+		</Button>
+		{#if replaceClientIdMessage}
+			<div class="text-green-600 mt-2">{replaceClientIdMessage}</div>
+		{/if}
+	</div>
 	{/if}
 
 	<div class="relative mt-5 flex justify-center">
