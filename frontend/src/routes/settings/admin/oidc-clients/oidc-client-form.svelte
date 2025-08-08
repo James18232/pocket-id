@@ -171,6 +171,13 @@
 				errors={getFederatedIdentityErrors($errors)}
 			/>
 		</div>
+		<div class="mt-5 md:col-span-2" transition:slide={{ duration: 200 }}>
+			<FederatedIdentitiesInput
+				client={existingClient}
+				bind:federatedIdentities={$inputs.credentials.value.federatedIdentities}
+				errors={getFederatedIdentityErrors($errors)}
+			/>
+		</div>
 	{/if}
 
 	<div class="relative mt-5 flex justify-center">
