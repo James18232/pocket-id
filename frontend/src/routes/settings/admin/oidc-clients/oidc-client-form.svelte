@@ -178,6 +178,7 @@
 				errors={getFederatedIdentityErrors($errors)}
 			/>
 		</div>
+		<div>
 			<EditClientId
 				client={existingClient}
 			/>
