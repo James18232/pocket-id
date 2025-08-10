@@ -13,6 +13,8 @@
 	}: HTMLAttributes<HTMLDivElement> & {
 		client?: OidcClient;
 	} = $props();
+
+	let newClientIdInput = '';
 </script>
 
 <div {...restProps}>
@@ -24,7 +26,7 @@
 		<label for="newClientIdInput" class="block mb-2 font-medium">{m.client_id()} ({m.new()})</label>
 		<Input
 			id="newClientIdInput"
-			bind:value={newClientIdInput}
+			value={newClientIdInput}
 			placeholder="Enter new Client ID"
 		/>
 		<Button class="mt-2">Replace Client ID</Button>
