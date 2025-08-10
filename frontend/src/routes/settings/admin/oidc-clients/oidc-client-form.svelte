@@ -179,9 +179,7 @@
 			/>
 		</div>
 		<div>
-			<EditClientId
-				client={existingClient}
-			/>
+			test input
 		</div>
 	{/if}
 
