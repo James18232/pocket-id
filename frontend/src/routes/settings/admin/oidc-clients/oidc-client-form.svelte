@@ -15,6 +15,7 @@
 	import { slide } from 'svelte/transition';
 	import { z } from 'zod/v4';
 	import FederatedIdentitiesInput from './federated-identities-input.svelte';
+	import EditClientId from './replace-ClientID.svelte';
 	import OidcCallbackUrlInput from './oidc-callback-url-input.svelte';
 
 	let {
@@ -177,22 +178,9 @@
 				errors={getFederatedIdentityErrors($errors)}
 			/>
 		</div>
-		<div class="mt-5 md:col-span-2" transition:slide={{ duration: 200 }}>
-        	<label class="block mb-2 font-medium">{m.client_id()} ({m.current()})</label>
-			<FormInput value={existingClient?.id ?? ''} readonly />
-
-			<label for="replaceClientIdInput" class="block mb-2 font-medium">{m.client_id()} ({m.new()})</label>
-			<FormInput
-				id="replaceClientIdInput"
-				bind:input={newClientIdInput}
-				placeholder="Enter new Client ID"
+			<EditClientId
+				client={existingClient}
 			/>
-			<Button class="mt-2" on:click={onReplaceClientId}>
-				{m.replace_client_id()}
-			</Button>
-			{#if replaceClientIdMessage}
-				<div class="text-green-600 mt-2">{replaceClientIdMessage}</div>
-			{/if}
 		</div>
 	{/if}
 
