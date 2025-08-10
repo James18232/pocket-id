@@ -178,9 +178,6 @@
 				errors={getFederatedIdentityErrors($errors)}
 			/>
 		</div>
-		<div>
-			test input
-		</div>
 	{/if}
 
 	<div class="relative mt-5 flex justify-center">
