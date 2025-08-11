@@ -22,7 +22,7 @@
 <div {...restProps}>
 	<Button class="mt-0" variant="secondary" size="sm" onclick={() => (showClientInput = !showClientInput)} type="button">
 	<TextCursorInput class="mr-1 size-4" />
-		Replace Client ID or Client secret
+		Replace Client ID / Client secret
 	</Button>
 
 	{#if showClientInput}
