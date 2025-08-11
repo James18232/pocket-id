@@ -16,10 +16,9 @@
 
 	let newClientIdInput = '';
 </script>
-<div> test2 </div>
 <div {...restProps}>
 	<div>
-		<label class="block mb-2 font-medium">test</label>
+		<label class="block mb-2 font-medium">{m.client_id()}</label>
 	</div>
 	<!-- <div>
 		<label for="newClientIdInput" class="block mb-2 font-medium">{m.client_id()} ({m.new()})</label>
