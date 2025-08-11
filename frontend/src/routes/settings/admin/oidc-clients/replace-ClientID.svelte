@@ -48,7 +48,7 @@
 					placeholder={`${client.id}`}
 					class="flex-grow"
 				/>
-				<Button class="mt-0 whitespace-nowrap" variant="secondary" on:click={handleUpdateClientId}>{m.update()} {m.client_id()}</Button>
+				<Button class="mt-0 whitespace-nowrap" variant="secondary" onclick={handleUpdateClientId}>{m.update()} {m.client_id()}</Button>
 			</div>
 			<div class="flex items-center justify-between gap-4">
 				<Input
