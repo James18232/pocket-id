@@ -15,19 +15,23 @@
 	} = $props();
 
 	let newClientIdInput = '';
+	let showClientInput = false;
+
 </script>
 
 <div {...restProps}>
-	<Button class="mt-3" variant="secondary" size="sm" onclick={addFederatedIdentity} type="button">
+	<Button class="mt-3" variant="secondary" size="sm" onclick={() => (showClientInput = !showClientInput)} type="button">
 		replace client ID or Secret
 	</Button>
 
-	<div>
-		<Input
-			id="newClientIdInput"
-			value={newClientIdInput || ''}
-			placeholder="Defaults to the client ID: {client?.id}"
-		/>
-		<Button class="mt-2">Replace Client ID</Button>
-	</div>
+	{#if showClientInput}
+		<div class="mt-4">
+			<Input
+				id="newClientIdInput"
+				bind:value={newClientIdInput}
+				placeholder={`Defaults to the client ID: ${client?.id}`}
+			/>
+			<Button class="mt-2">Replace Client ID</Button>
+		</div>
+	{/if}
 </div>
