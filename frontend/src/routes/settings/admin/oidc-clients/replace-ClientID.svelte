@@ -18,6 +18,32 @@
 	let newClientSecretInput: OidcClientSecretInput = '';
 	let expandUpdateClientIdentifiers = $state(false);
 
+	async function updateClientId() {
+		try {
+			const res = await fetch(`/api/oidc/clients/${client.id}/client-id`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${yourAuthToken}`
+				},
+				body: JSON.stringify({ new_id: newClientIdInput })
+			});
+
+			if (!res.ok) {
+				const errorData = await res.json();
+				alert(`Failed to update client ID: ${errorData.message || res.statusText}`);
+				return;
+			}
+
+			const updatedClient = await res.json();
+			alert(`Client ID updated successfully to: ${updatedClient.id}`);
+
+		} catch (err) {
+			console.error(err);
+			alert('Something went wrong while updating the client ID.');
+		}
+	}
+
 </script>
 
 <div {...restProps}>
@@ -35,7 +61,7 @@
 					placeholder={`${client.id}`}
 					class="flex-grow"
 				/>
-				<Button class="mt-0 whitespace-nowrap" variant="secondary" >{m.update()} {m.client_id()}</Button>
+				<Button class="mt-0 whitespace-nowrap" variant="secondary" on:click={updateClientId}>{m.update()} {m.client_id()}</Button>
 			</div>
 			<div class="flex items-center justify-between gap-4">
 				<Input
