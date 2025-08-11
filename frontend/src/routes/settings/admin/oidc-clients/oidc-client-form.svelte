@@ -181,6 +181,7 @@
 				/>
 				<div>test text</div>
 			</div>
+		</div>
 	{/if}
 
 	<div class="relative mt-5 flex justify-center">
