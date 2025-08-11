@@ -32,7 +32,7 @@
 				<Input
 					id="newClientIdInput"
 					bind:value={newClientIdInput}
-					placeholder={`${client?.id}`}
+					placeholder={`${client.id}`}
 					class="flex-grow"
 				/>
 				<Button class="mt-0 whitespace-nowrap" variant="secondary" >Replace Client ID</Button>
