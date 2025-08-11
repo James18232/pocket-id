@@ -172,14 +172,15 @@
 	</div>
 
 	{#if showAdvancedOptions}
-		<div class="mt-5 md:col-span-2" transition:slide={{ duration: 200 }}>
-			<FederatedIdentitiesInput
-				client={existingClient}
-				bind:federatedIdentities
-				errors={getFederatedIdentityErrors($errors)}
-			/>
-			<!-- <div>test text</div> -->
-		</div>
+		<div transition:slide={{ duration: 200 }}>		
+			<div class="mt-5 md:col-span-2">
+				<FederatedIdentitiesInput
+					client={existingClient}
+					bind:federatedIdentities
+					errors={getFederatedIdentityErrors($errors)}
+				/>
+				<div>test text</div>
+			</div>
 	{/if}
 
 	<div class="relative mt-5 flex justify-center">
