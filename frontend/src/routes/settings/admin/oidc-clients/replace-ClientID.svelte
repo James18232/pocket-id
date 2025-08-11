@@ -16,8 +16,8 @@
 
 	let newClientIdInput = '';
 </script>
-
-<div {...restProps}>
+<div> test2 </div>
+<!-- <div {...restProps}>
 	<div>
 		<label class="block mb-2 font-medium">{m.client_id()} ({m.current()})</label>
 	</div>
@@ -31,4 +31,5 @@
 		<Button class="mt-2">Replace Client ID</Button>
 		<!-- Button is not wired yet, since API call is not a focus -->
 	</div>
+-->
 </div>
