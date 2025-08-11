@@ -3,7 +3,6 @@
 	import { Input } from '$lib/components/ui/input';
 	import { m } from '$lib/paraglide/messages';
 	import type { OidcClient } from '$lib/types/oidc.type';
-	import FormInput from '$lib/components/form/form-input.svelte';
 	import type { HTMLAttributes } from 'svelte/elements';
 	import { TextCursorInput } from '@lucide/svelte';
 
