@@ -21,7 +21,6 @@
 		<label class="block mb-2 font-medium">{m.client_id()} {client?.id}</label>
 	</div>
 	<div>
-		<label for="newClientIdInput" class="block mb-2 font-medium">{m.client_id()} ({m.new()})</label>
 		<Input
 			id="newClientIdInput"
 			value={newClientIdInput || ''}
