@@ -29,7 +29,6 @@
 			placeholder="Enter new Client ID"
 		/>
 		<Button class="mt-2">Replace Client ID</Button>
-		<!-- Button is not wired yet, since API call is not a focus -->
 	</div>
 -->
 </div>
