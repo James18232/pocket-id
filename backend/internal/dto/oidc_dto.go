@@ -1,5 +1,9 @@
 package dto
 
+type UpdateClientIDDto struct {
+    NewClientID string `json:"newClientId" binding:"required"`
+}
+
 type OidcClientMetaDataDto struct {
 	ID      string `json:"id"`
 	Name    string `json:"name"`
