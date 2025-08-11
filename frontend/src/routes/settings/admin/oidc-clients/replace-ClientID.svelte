@@ -10,7 +10,7 @@
 		client,
 		...restProps
 	}: HTMLAttributes<HTMLDivElement> & {
-		client?: OidcClient;
+		client: OidcClient;
 	} = $props();
 
 	let newClientIdInput = '';
