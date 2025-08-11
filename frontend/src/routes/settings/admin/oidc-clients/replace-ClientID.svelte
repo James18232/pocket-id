@@ -35,7 +35,7 @@
 					placeholder={`${client.id}`}
 					class="flex-grow"
 				/>
-				<Button class="mt-0 whitespace-nowrap" variant="secondary" >Replace Client ID</Button>
+				<Button class="mt-0 whitespace-nowrap" variant="secondary" >{m.update()} {m.client_id()}</Button>
 			</div>
 			<div class="flex items-center justify-between gap-4">
 				<Input
@@ -44,7 +44,7 @@
 					placeholder={"••••••••••••••••••••••••••••••••"}
 					class="flex-grow"
 				/>
-				<Button class="mt-0 whitespace-nowrap" variant="secondary">Replace Client secret</Button>
+				<Button class="mt-0 whitespace-nowrap" variant="secondary">{m.update()} {m.client_secret()}</Button>
 			</div>
 		</div>
 	{/if}
