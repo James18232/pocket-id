@@ -40,7 +40,7 @@
 				<Input
 					id="newClientSecretInput"
 					bind:value={newClientSecretInput}
-					placeholder={`••••••••••••••••••••••••••••••••}
+					placeholder={`••••••••••••••••••••••••••••••••'}
 					class="flex-grow"
 				/>
 				<Button class="mt-0 whitespace-nowrap" variant="secondary">Replace Client secret</Button>
