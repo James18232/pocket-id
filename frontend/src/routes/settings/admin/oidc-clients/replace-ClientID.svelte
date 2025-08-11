@@ -15,7 +15,7 @@
 	} = $props();
 
 	let newClientIdInput = '';
-	let showClientInput = false;
+	let showClientInput = $state(false);
 
 </script>
 
