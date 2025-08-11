@@ -17,11 +17,11 @@
 	let newClientIdInput = '';
 </script>
 <div> test2 </div>
-<!-- <div {...restProps}>
+<div {...restProps}>
 	<div>
 		<label class="block mb-2 font-medium">{m.client_id()} ({m.current()})</label>
 	</div>
-	<div>
+	<!-- <div>
 		<label for="newClientIdInput" class="block mb-2 font-medium">{m.client_id()} ({m.new()})</label>
 		<Input
 			id="newClientIdInput"
@@ -29,5 +29,5 @@
 			placeholder="Enter new Client ID"
 		/>
 		<Button class="mt-2">Replace Client ID</Button>
-	</div>
-</div> -->
+	</div> -->
+</div>
