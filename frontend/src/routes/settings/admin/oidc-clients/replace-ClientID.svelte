@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
-	import { OidcService } from '$lib/services/oidc-service';
+	import OidcService from '$lib/services/oidc-service';
 	import { Input } from '$lib/components/ui/input';
 	import { m } from '$lib/paraglide/messages';
 	import type { OidcClient, OidcClientSecretInput, OidcClientMetaData } from '$lib/types/oidc.type';
