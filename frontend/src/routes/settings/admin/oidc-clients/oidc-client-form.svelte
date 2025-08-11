@@ -178,7 +178,7 @@
 				bind:federatedIdentities
 				errors={getFederatedIdentityErrors($errors)}
 			/>
-			<div>test text</div>
+			<!-- <div>test text</div> -->
 		</div>
 	{/if}
 
