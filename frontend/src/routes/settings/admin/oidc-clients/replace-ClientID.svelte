@@ -19,7 +19,7 @@
 <div> test2 </div>
 <div {...restProps}>
 	<div>
-		<label class="block mb-2 font-medium">{m.client_id()} ({m.current()})</label>
+		<label class="block mb-2 font-medium">test</label>
 	</div>
 	<!-- <div>
 		<label for="newClientIdInput" class="block mb-2 font-medium">{m.client_id()} ({m.new()})</label>
