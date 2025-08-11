@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
-	import { updateClientId } from '$lib/services/oidc-service';
+	import { OidcService } from '$lib/services/oidc-service';
 	import { Input } from '$lib/components/ui/input';
 	import { m } from '$lib/paraglide/messages';
 	import type { OidcClient, OidcClientSecretInput, OidcClientMetaData } from '$lib/types/oidc.type';
@@ -22,7 +22,8 @@
 
 	async function handleUpdateClientId() {
 		try {
-			const updatedClient = await updateClientId(client.id, newClientIdInput);
+			const oidcService = new OidcService();
+			await oidcService.updateClientId(currentId, newId);		
 			toast.success('Client ID updated successfully');
 			newClientIdInput = '';
 		} catch (e) {
