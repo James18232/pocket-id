@@ -6,7 +6,6 @@
 	import type { OidcClient, OidcClientSecretInput, OidcClientMetaData } from '$lib/types/oidc.type';
 	import { axiosErrorToast } from '$lib/utils/error-util';
 	import { toast } from 'svelte-sonner';
-
 	import type { HTMLAttributes } from 'svelte/elements';
 	import { TextCursorInput } from '@lucide/svelte';
 
