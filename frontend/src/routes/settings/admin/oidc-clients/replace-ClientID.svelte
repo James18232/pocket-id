@@ -22,7 +22,7 @@
 <div {...restProps}>
 	<Button class="mt-0" variant="secondary" size="sm" onclick={() => (showClientInput = !showClientInput)} type="button">
 	<TextCursorInput class="mr-1 size-4" />
-		{m.update} Client ID / Client secret
+		{m.update()} {m.client_id()} / {m.client_secret()}
 	</Button>
 
 	{#if showClientInput}
