@@ -34,7 +34,6 @@
 	let logoDataURL: string | null = $state(
 		existingClient?.hasLogo ? cachedOidcClientLogo.getUrl(existingClient!.id) : null
 	);
-	let federatedIdentities = $inputs.credentials.value?.federatedIdentities || [];
 
 	const client = {
 		name: existingClient?.name || '',
@@ -176,7 +175,7 @@
 			<div class="mt-5 md:col-span-2">
 				<FederatedIdentitiesInput
 					client={existingClient}
-					bind:federatedIdentities
+					bind:federatedIdentities={$inputs.credentials.value.federatedIdentities}
 					errors={getFederatedIdentityErrors($errors)}
 				/>
 				<div>test text</div>
