@@ -177,6 +177,9 @@
 				bind:federatedIdentities={$inputs.credentials.value.federatedIdentities}
 				errors={getFederatedIdentityErrors($errors)}
 			/>
+		<div>
+			test text
+		</div>
 		</div>
 	{/if}
 
