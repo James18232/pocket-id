@@ -179,11 +179,12 @@
 					errors={getFederatedIdentityErrors($errors)}
 				/>
 			</div>
-			<div class="mt-5 md:col-span-2">
+			<!-- <div class="mt-5 md:col-span-2">
 				<EditClientId
 					client={existingClient}
-				/>
+				/> -->
 			</div>
+			<div> test text </div>
 		</div>
 	{/if}
 
