@@ -16,10 +16,12 @@
 
 	let newClientIdInput = '';
 </script>
+
 <div {...restProps}>
-	<div>
-		<label class="block mb-2 font-medium">{m.client_id()} {client?.id}</label>
-	</div>
+	<Button class="mt-3" variant="secondary" size="sm" onclick={addFederatedIdentity} type="button">
+		replace client ID or Secret
+	</Button>
+
 	<div>
 		<Input
 			id="newClientIdInput"
