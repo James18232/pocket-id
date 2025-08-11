@@ -178,6 +178,7 @@
 					bind:federatedIdentities={$inputs.credentials.value.federatedIdentities}
 					errors={getFederatedIdentityErrors($errors)}
 				/>
+			</div>
 			<div class="mt-5 md:col-span-2">
 				<EditClientId
 					client={existingClient}
