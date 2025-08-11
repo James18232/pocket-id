@@ -25,17 +25,6 @@
 		Replace Client ID or Client secret
 	</Button>
 
-	<!-- {#if showClientInput}
-		<div class="mt-4">
-			<Input
-				id="newClientIdInput"
-				bind:value={newClientIdInput}
-				placeholder={`${client?.id}`}
-			/>
-			<Button class="mt-2">Replace Client ID</Button>
-		</div>
-	{/if} -->
-
 	{#if showClientInput}
 		<div class="mt-4 space-y-3 rounded-lg border p-4">
 			<div class="flex items-center justify-between gap-4">
@@ -45,7 +34,7 @@
 					placeholder={`${client?.id}`}
 					class="flex-grow"
 				/>
-				<Button class="mt-0 whitespace-nowrap">Replace Client ID</Button>
+				<Button class="mt-0 whitespace-nowrap" variant="secondary" >Replace Client ID</Button>
 			</div>
 			<div class="flex items-center justify-between gap-4">
 				<Input
@@ -54,7 +43,7 @@
 					placeholder={`${client?.id}`}
 					class="flex-grow"
 				/>
-				<Button class="mt-0 whitespace-nowrap">Replace Client secret</Button>
+				<Button class="mt-0 whitespace-nowrap" variant="secondary">Replace Client secret</Button>
 			</div>
 		</div>
 	{/if}
