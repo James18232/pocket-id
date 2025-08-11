@@ -15,17 +15,17 @@
 
 	let newClientIdInput = '';
 	let newClientSecretInput = '';
-	let showClientInput = $state(false);
+	let expandUpdateClientIdentifiers = $state(false);
 
 </script>
 
 <div {...restProps}>
-	<Button class="mt-0" variant="secondary" size="sm" onclick={() => (showClientInput = !showClientInput)} type="button">
+	<Button class="mt-0" variant="secondary" size="sm" onclick={() => (expandUpdateClientIdentifiers = !expandUpdateClientIdentifiers)} type="button">
 	<TextCursorInput class="mr-1 size-4" />
 		{m.update()} {m.client_id()} / {m.client_secret()}
 	</Button>
 
-	{#if showClientInput}
+	{#if expandUpdateClientIdentifiers}
 		<div class="mt-4 space-y-3 rounded-lg border p-4">
 			<div class="flex items-center justify-between gap-4">
 				<Input
