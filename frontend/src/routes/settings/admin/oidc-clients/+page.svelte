@@ -17,7 +17,7 @@
 	let { data } = $props();
 	let clients = $state(data.clients);
 	let clientsRequestOptions = $state(data.clientsRequestOptions);
-	let expandAddClient = $state(false);
+	let expandUpdateClientIdenitfiers = $state(false);
 
 	const oidcService = new OIDCService();
 
@@ -58,16 +58,16 @@
 						})}</Card.Description
 					>
 				</div>
-				{#if !expandAddClient}
-					<Button onclick={() => (expandAddClient = true)}>{m.add_oidc_client()}</Button>
+				{#if !expandUpdateClientIdenitfiers}
+					<Button onclick={() => (expandUpdateClientIdenitfiers = true)}>{m.add_oidc_client()}</Button>
 				{:else}
-					<Button class="h-8 p-3" variant="ghost" onclick={() => (expandAddClient = false)}>
+					<Button class="h-8 p-3" variant="ghost" onclick={() => (expandUpdateClientIdenitfiers = false)}>
 						<LucideMinus class="size-5" />
 					</Button>
 				{/if}
 			</div>
 		</Card.Header>
-		{#if expandAddClient}
+		{#if expandUpdateClientIdenitfiers}
 			<div transition:slide>
 				<Card.Content>
 					<OIDCClientForm callback={createOIDCClient} />
