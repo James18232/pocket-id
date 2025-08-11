@@ -20,13 +20,13 @@
 	<div>
 		<label class="block mb-2 font-medium">{m.client_id()} {client?.id}</label>
 	</div>
-	<!-- <div>
+	<div>
 		<label for="newClientIdInput" class="block mb-2 font-medium">{m.client_id()} ({m.new()})</label>
 		<Input
 			id="newClientIdInput"
-			value={newClientIdInput | ""}
-			placeholder="Enter new Client ID"
+			value={newClientIdInput || ''}
+			placeholder="Defaults to the client ID: {client?.id}"
 		/>
 		<Button class="mt-2">Replace Client ID</Button>
-	</div> -->
+	</div>
 </div>
