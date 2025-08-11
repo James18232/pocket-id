@@ -15,6 +15,7 @@
 	} = $props();
 
 	let newClientIdInput = '';
+	let newClientSecretInput = '';
 	let showClientInput = $state(false);
 
 </script>
@@ -36,7 +37,7 @@
 	{/if} -->
 
 	{#if showClientInput}
-		<div class="space-y-3 rounded-lg border p-4">
+		<div class="mt-4 space-y-3 rounded-lg border p-4">
 			<div class="flex items-center justify-between gap-4">
 				<Input
 					id="newClientIdInput"
@@ -45,6 +46,15 @@
 					class="flex-grow"
 				/>
 				<Button class="mt-0 whitespace-nowrap">Replace Client ID</Button>
+			</div>
+			<div class="flex items-center justify-between gap-4">
+				<Input
+					id="newClientSecretInput"
+					bind:value={newClientSecretInput}
+					placeholder={`${client?.id}`}
+					class="flex-grow"
+				/>
+				<Button class="mt-0 whitespace-nowrap">Replace Client secret</Button>
 			</div>
 		</div>
 	{/if}
