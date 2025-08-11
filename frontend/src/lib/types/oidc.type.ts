@@ -6,6 +6,8 @@ export type OidcClientMetaData = {
 	hasLogo: boolean;
 };
 
+export type OidcClientSecretInput = string;
+
 export type OidcClientFederatedIdentity = {
 	issuer: string;
 	subject?: string;
