@@ -6,6 +6,7 @@
 	import type { OidcClient } from '$lib/types/oidc.type';
 	import FormInput from '$lib/components/form/form-input.svelte';
 	import type { HTMLAttributes } from 'svelte/elements';
+	import { TextCursorInput } from '@lucide/svelte';
 
 	let {
 		client,
@@ -22,7 +23,7 @@
 
 <div {...restProps}>
 	<Button class="mt-3" variant="secondary" size="sm" onclick={() => (showClientInput = !showClientInput)} type="button">
-	<LucideTextCursorInput class="mr-1 size-4" />
+	<TextCursorInput class="mr-1 size-4" />
 		Replace Client ID or Client secret
 	</Button>
 
