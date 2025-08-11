@@ -56,41 +56,41 @@ type OidcService struct {
 }
 
 func (s *OidcService) UpdateClientID(ctx context.Context, currentID string, newID string) (model.OidcClient, error) {
-	tx := s.db.Begin()
-	defer func() {
-		tx.Rollback()
-	}()
+    tx := s.db.Begin()
+    defer func() {
+        tx.Rollback()
+    }()
 
-	var client model.OidcClient
-	err := tx.WithContext(ctx).First(&client, "id = ?", currentID).Error
-	if err != nil {
-		return model.OidcClient{}, err
-	}
+    // Check that the new client ID is not already taken
+    var existing model.OidcClient
+    err := tx.WithContext(ctx).First(&existing, "id = ?", newID).Error
+    if err == nil {
+        return model.OidcClient{}, fmt.Errorf("client ID '%s' already exists", newID)
+    } else if !errors.Is(err, gorm.ErrRecordNotFound) {
+        return model.OidcClient{}, err
+    }
 
-	// Check that the new client ID is not already taken
-	var existing model.OidcClient
-	err = tx.WithContext(ctx).First(&existing, "id = ?", newID).Error
-	if err == nil {
-		return model.OidcClient{}, fmt.Errorf("client ID '%s' already exists", newID)
-	} else if !errors.Is(err, gorm.ErrRecordNotFound) {
-		return model.OidcClient{}, err
-	}
+    err = tx.WithContext(ctx).
+        Model(&model.OidcClient{}).
+        Where("id = ?", currentID).
+        Update("id", newID).Error
+    if err != nil {
+        return model.OidcClient{}, err
+    }
 
-	client.ID = newID
+    var client model.OidcClient
+    err = tx.WithContext(ctx).First(&client, "id = ?", newID).Error
+    if err != nil {
+        return model.OidcClient{}, err
+    }
 
-	err = tx.WithContext(ctx).Save(&client).Error
-	if err != nil {
-		return model.OidcClient{}, err
-	}
+    err = tx.Commit().Error
+    if err != nil {
+        return model.OidcClient{}, err
+    }
 
-	err = tx.Commit().Error
-	if err != nil {
-		return model.OidcClient{}, err
-	}
-
-	return client, nil
+    return client, nil
 }
-
 
 func NewOidcService(
 	ctx context.Context,
