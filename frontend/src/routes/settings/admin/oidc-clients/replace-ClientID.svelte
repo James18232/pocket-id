@@ -2,7 +2,8 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { m } from '$lib/paraglide/messages';
-	import type { OidcClient } from '$lib/types/oidc.type';
+	import type { OidcClient, OidcClientSecretInput, OidcClientMetaData } from '$lib/types/oidc.type';
+
 	import type { HTMLAttributes } from 'svelte/elements';
 	import { TextCursorInput } from '@lucide/svelte';
 
@@ -13,8 +14,8 @@
 		client: OidcClient;
 	} = $props();
 
-	let newClientIdInput = '';
-	let newClientSecretInput = '';
+	let newClientIdInput: OidcClientMetaData['id'] = '';
+	let newClientSecretInput: OidcClientSecretInput = '';
 	let expandUpdateClientIdentifiers = $state(false);
 
 </script>
