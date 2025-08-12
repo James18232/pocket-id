@@ -181,7 +181,7 @@
 			</div>
 			<div class="mt-5 md:col-span-2">
 				<EditClientId
-					client={existingClient}
+					bind:client={existingClient}
 				/> 
 			</div>
 		</div>
