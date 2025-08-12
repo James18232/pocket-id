@@ -69,15 +69,15 @@ func (s *OidcService) UpdateClientID(ctx context.Context, currentID string, newI
     } else if !errors.Is(err, gorm.ErrRecordNotFound) {
         return model.OidcClient{}, err
     }
-
-    err = tx.WithContext(ctx).
+    
+	err = tx.WithContext(ctx).
         Model(&model.OidcClient{}).
         Where("id = ?", currentID).
         Update("id", newID).Error
     if err != nil {
         return model.OidcClient{}, err
     }
-
+	
 	err = tx.WithContext(ctx).
         Model(&model.OidcClientsAllowedUserGroup{}).
         Where("oidc_client_id = ?", currentID).
@@ -88,12 +88,13 @@ func (s *OidcService) UpdateClientID(ctx context.Context, currentID string, newI
 
 	err = tx.WithContext(ctx).
         Model(&model.UserAuthorizedOidcClient{}).
-        Where("client_id = ?", currentID).
-        Update("client_id", newID).Error
+        Where("ClientID = ?", currentID).
+        Update("ClientID", newID).Error
     if err != nil {
         return model.UserAuthorizedOidcClient{}, err
     }
 
+	
     var client model.OidcClient
     err = tx.WithContext(ctx).First(&client, "id = ?", newID).Error
     if err != nil {
