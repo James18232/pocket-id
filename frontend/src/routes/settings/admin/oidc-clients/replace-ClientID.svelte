@@ -29,7 +29,7 @@
 			await oidcService.updateClientId(client.id, newClientIdInput);	
 			toast.success('Client ID updated successfully');
 			newClientIdInput = '';
-			onRefresh?.();
+			onRefresh?.(newClientIdInput);
 		} catch (e) {
 			axiosErrorToast(e);
 		}
