@@ -10,6 +10,11 @@ import (
 	datatype "github.com/pocket-id/pocket-id/backend/internal/model/types"
 )
 
+type OidcClientsAllowedUserGroup struct {
+	OidcClientID string
+	UserGroupID  string
+}
+
 type UserAuthorizedOidcClient struct {
 	Scope  string
 	UserID string `gorm:"primary_key;"`
