@@ -18,6 +18,8 @@
 	import EditClientId from './replace-ClientID.svelte';
 	import OidcCallbackUrlInput from './oidc-callback-url-input.svelte';
 
+	export let onRefresh: () => void;
+
 	let {
 		callback,
 		existingClient
@@ -181,7 +183,8 @@
 			</div>
 			<div class="mt-5 md:col-span-2">
 				<EditClientId
-					bind:client={existingClient}
+					client={existingClient}
+					onRefresh={refreshClients}
 				/> 
 			</div>
 		</div>
