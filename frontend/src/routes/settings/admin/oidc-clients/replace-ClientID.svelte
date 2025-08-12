@@ -15,7 +15,7 @@
 		...restProps
 	}: HTMLAttributes<HTMLDivElement> & {
 		client: OidcClient;
-		onRefresh?: () => void;
+		onRefresh?: (newId?: string) => void;
 	} = $props();
 
 	let newClientIdInput: OidcClientMetaData['id'] = '';
