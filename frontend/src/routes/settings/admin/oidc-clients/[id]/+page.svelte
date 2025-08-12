@@ -39,12 +39,9 @@
 		[m.pkce()]: client.pkceEnabled ? m.enabled() : m.disabled()
 	});
 
-	async function refreshClient() {
-		try {
-			const freshClient = await oidcService.getClientById(client.id);
-			client.id = freshClient.id;
-		} catch (e) {
-			axiosErrorToast(e);
+	function refreshClient(newId?: string) {
+		if (newId) {
+			client.id = newId;
 		}
 	}
 
