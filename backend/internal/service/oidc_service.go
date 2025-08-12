@@ -83,7 +83,7 @@ func (s *OidcService) UpdateClientID(ctx context.Context, currentID string, newI
         Where("oidc_client_id = ?", currentID).
         Update("oidc_client_id", newID).Error
     if err != nil {
-        return model.OidcClientsAllowedUserGroup{}, err
+        return model.OidcClient{}, err
     }
 
 	err = tx.WithContext(ctx).
@@ -91,9 +91,8 @@ func (s *OidcService) UpdateClientID(ctx context.Context, currentID string, newI
         Where("ClientID = ?", currentID).
         Update("ClientID", newID).Error
     if err != nil {
-        return model.UserAuthorizedOidcClient{}, err
+        return model.OidcClient{}, err
     }
-
 	
     var client model.OidcClient
     err = tx.WithContext(ctx).First(&client, "id = ?", newID).Error
