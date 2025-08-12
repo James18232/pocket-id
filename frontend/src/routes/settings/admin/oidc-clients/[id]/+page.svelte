@@ -39,6 +39,14 @@
 		[m.pkce()]: client.pkceEnabled ? m.enabled() : m.disabled()
 	});
 
+	async function refreshClient() {
+  		const freshClient = await oidcService.getClientById(client.id);
+  		client = {
+    		...freshClient,
+    		allowedUserGroupIds: freshClient.allowedUserGroups.map(g => g.id)
+  		};
+	}
+
 	async function updateClient(updatedClient: OidcClientCreateWithLogo) {
 		let success = true;
 		const dataPromise = oidcService.updateClient(client.id, updatedClient);
@@ -175,7 +183,7 @@
 </Card.Root>
 <Card.Root>
 	<Card.Content>
-		<OidcForm existingClient={client} callback={updateClient} />
+		<OidcForm existingClient={client} callback={updateClient} onRefresh={refreshClient}/>
 	</Card.Content>
 </Card.Root>
 <CollapsibleCard
