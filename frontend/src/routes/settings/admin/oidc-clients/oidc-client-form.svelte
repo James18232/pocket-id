@@ -18,14 +18,14 @@
 	import EditClientId from './replace-ClientID.svelte';
 	import OidcCallbackUrlInput from './oidc-callback-url-input.svelte';
 
-	export let onRefresh: () => void;
-
 	let {
 		callback,
-		existingClient
+		existingClient,
+		onRefresh
 	}: {
 		existingClient?: OidcClient;
 		callback: (user: OidcClientCreateWithLogo) => Promise<boolean>;
+		onRefresh?: () => void;
 	} = $props();
 
 	let isLoading = $state(false);
