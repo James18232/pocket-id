@@ -25,7 +25,7 @@
 	}: {
 		existingClient?: OidcClient;
 		callback: (user: OidcClientCreateWithLogo) => Promise<boolean>;
-		onRefresh?: () => void;
+		onRefresh?: (newId?: string) => void;
 	} = $props();
 
 	let isLoading = $state(false);
