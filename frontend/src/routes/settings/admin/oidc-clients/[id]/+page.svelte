@@ -40,11 +40,12 @@
 	});
 
 	async function refreshClient() {
-  		const freshClient = await oidcService.getClientById(client.id);
-  		client = {
-    		...freshClient,
-    		allowedUserGroupIds: freshClient.allowedUserGroups.map(g => g.id)
-  		};
+		try {
+			const freshClient = await oidcService.getClientById(client.id);
+			client.id = freshClient.id;
+		} catch (e) {
+			axiosErrorToast(e);
+		}
 	}
 
 	async function updateClient(updatedClient: OidcClientCreateWithLogo) {
