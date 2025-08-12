@@ -88,8 +88,8 @@ func (s *OidcService) UpdateClientID(ctx context.Context, currentID string, newI
 
 	err = tx.WithContext(ctx).
         Model(&model.UserAuthorizedOidcClient{}).
-        Where("ClientID = ?", currentID).
-        Update("ClientID", newID).Error
+        Where("client_id = ?", currentID).
+        Update("client_id", newID).Error
     if err != nil {
         return model.OidcClient{}, err
     }
