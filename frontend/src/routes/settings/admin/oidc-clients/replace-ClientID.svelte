@@ -8,13 +8,14 @@
 	import { toast } from 'svelte-sonner';
 	import type { HTMLAttributes } from 'svelte/elements';
 	import { TextCursorInput } from '@lucide/svelte';
-	export let onRefresh?: () => void;
 
 	let {
 		client,
+		onRefresh,
 		...restProps
 	}: HTMLAttributes<HTMLDivElement> & {
 		client: OidcClient;
+		onRefresh?: () => void;
 	} = $props();
 
 	let newClientIdInput: OidcClientMetaData['id'] = '';
