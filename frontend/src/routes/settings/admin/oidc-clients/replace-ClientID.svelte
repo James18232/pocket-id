@@ -23,7 +23,9 @@
 	async function handleUpdateClientId() {
 		try {
 			const oidcService = new OidcService();
-			await oidcService.updateClientId(client.id, newClientIdInput);		
+			await oidcService.updateClientId(client.id, newClientIdInput);	
+
+			client = { ...client, id: newClientIdInput };
 			toast.success('Client ID updated successfully');
 			newClientIdInput = '';
 		} catch (e) {
