@@ -43,7 +43,6 @@
 		if (newId) {
 			client.id = newId;
 		}
-		toast.message(`refreshClient() called with ID: ${newId}`);
 	}
 
 	async function updateClient(updatedClient: OidcClientCreateWithLogo) {
