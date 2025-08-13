@@ -73,7 +73,7 @@ type OidcController struct {
 // @Accept json
 // @Produce json
 // @Param id path string true "Current Client ID"
-// @Param body body dto.UpdateClientIDDto true "New client secret"
+// @Param body body dto.UpdateClienSecretDto true "New client secret"
 // @Success 200
 // @Router /api/oidc/clients/{id}/client-secret [put]
 func (oc *OidcController) updateClientSecretHandler(c *gin.Context) {
