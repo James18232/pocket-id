@@ -1,5 +1,7 @@
 package dto
 
+import datatype "github.com/pocket-id/pocket-id/backend/internal/model/types"
+
 type UpdateClientIDDto struct {
     NewClientID string `json:"NewClientId" binding:"required"`
 }
