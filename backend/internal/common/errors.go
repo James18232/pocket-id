@@ -138,7 +138,7 @@ func (e *ClientIdOrSecretNotProvidedError) HttpStatusCode() int { return http.St
 type ClientIdNotUniqueError struct{}
 
 func (e *ClientIdNotUniqueError) Error() string {
-	return "Client id not unique"
+	return "new Client ID already taken"
 }
 
 func (e *ClientIdNotUniqueError) HttpStatusCode() int { return http.StatusConflict }
