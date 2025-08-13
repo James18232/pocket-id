@@ -70,7 +70,7 @@ class OidcService extends APIService {
 	
 	async updateClientId(currentId: string, newId: string) {
 		return (await this.api.put(`/oidc/clients/${currentId}/client-id`, {
-			NewClientID: newId
+			NewClientId: newId
 			})).data as OidcClient;
 	}
 
