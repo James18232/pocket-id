@@ -75,7 +75,7 @@ class OidcService extends APIService {
 	}
 
 	async updateClientSecret(currentId: string, newSecret: string) {
-		return (await this.api.put(`/oidc/clients/${currentId}/replace-client-secret`, {
+		return (await this.api.put(`/oidc/clients/${currentId}/client-secret`, {
 			NewClientSecret: newSecret
 			})).data as OidcClient;
 	}
