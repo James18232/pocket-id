@@ -11,9 +11,10 @@ type UpdateClientSecretDto struct {
 }
 
 type OidcClientMetaDataDto struct {
-	ID      string `json:"id"`
-	Name    string `json:"name"`
-	HasLogo bool   `json:"hasLogo"`
+	ID        string  `json:"id"`
+	Name      string  `json:"name"`
+	HasLogo   bool    `json:"hasLogo"`
+	LaunchURL *string `json:"launchURL"`
 }
 
 type OidcClientDto struct {
@@ -42,6 +43,7 @@ type OidcClientCreateDto struct {
 	IsPublic           bool                     `json:"isPublic"`
 	PkceEnabled        bool                     `json:"pkceEnabled"`
 	Credentials        OidcClientCredentialsDto `json:"credentials"`
+	LaunchURL          *string                  `json:"launchURL" binding:"omitempty,url"`
 }
 
 type OidcClientCredentialsDto struct {
@@ -155,8 +157,9 @@ type DeviceCodeInfoDto struct {
 }
 
 type AuthorizedOidcClientDto struct {
-	Scope  string                `json:"scope"`
-	Client OidcClientMetaDataDto `json:"client"`
+	Scope      string                `json:"scope"`
+	Client     OidcClientMetaDataDto `json:"client"`
+	LastUsedAt datatype.DateTime     `json:"lastUsedAt"`
 }
 
 type OidcClientPreviewDto struct {
