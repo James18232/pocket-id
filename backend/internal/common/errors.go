@@ -133,6 +133,8 @@ func (e *ClientIdOrSecretNotProvidedError) Error() string {
 	return "Client id or secret not provided"
 }
 
+type ClientIdNotUniqueError struct{}
+
 func (e *ClientIdNotUniqueError) Error() string {
 	return "Client id not unique"
 }
