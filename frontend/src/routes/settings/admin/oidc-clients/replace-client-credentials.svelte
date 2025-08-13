@@ -44,7 +44,7 @@
 
 	{#if expandUpdateClientIdentifiers}
 		<div class="mt-4 space-y-3 rounded-lg border p-4">
-			<div class="flex items-center justify-between gap-4">
+			<div class="flex flex-col sm:flex-row items-center justify-between gap-4">
 				<Input
 					id="newClientIdInput"
 					bind:value={newClientIdInput}
@@ -53,7 +53,7 @@
 				/>
 				<Button class="mt-0 whitespace-nowrap" variant="secondary" onclick={handleUpdateClientId}>{m.update()} {m.client_id()}</Button>
 			</div>
-			<div class="flex items-center justify-between gap-4">
+			<div class="flex flex-col sm:flex-row items-center justify-between gap-4">
 				<Input
 					id="newClientSecretInput"
 					bind:value={newClientSecretInput}
