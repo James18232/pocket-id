@@ -848,6 +848,44 @@ func (s *OidcService) CreateClientSecret(ctx context.Context, clientID string) (
 	return clientSecret, nil
 }
 
+func (s *OidcService) ReplaceClientSecret(ctx context.Context, clientID string, newClientSecret string) (string, error) {
+	tx := s.db.Begin()
+	defer func() {
+		tx.Rollback()
+	}()
+
+	var client model.OidcClient
+	err := tx.
+		WithContext(ctx).
+		First(&client, "id = ?", clientID).
+		Error
+	if err != nil {
+		return "", err
+	}
+
+	hashedSecret, err := bcrypt.GenerateFromPassword([]byte(newClientSecret), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+
+	newHash = string(hashedSecret)
+	
+	err = tx.WithContext(ctx).
+        Model(&model.OidcClient{}).
+        Where("id = ?", currentID).
+        Update("secret", newHash).Error
+    if err != nil {
+        return model.OidcClient{}, err
+    }
+
+	err = tx.Commit().Error
+	if err != nil {
+		return "", err
+	}
+
+	return clientSecret, nil
+}
+
 func (s *OidcService) GetClientLogo(ctx context.Context, clientID string) (string, string, error) {
 	var client model.OidcClient
 	err := s.db.
