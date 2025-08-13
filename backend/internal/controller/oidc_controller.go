@@ -67,13 +67,13 @@ type OidcController struct {
 
 // updateClientIDHandler godoc
 // @Summary Change client ID
-// @Description Update the client_id of an existing OIDC client
+// @Description Update the client_id of an existing OIDC client. The new ID must be unique.
 // @Tags OIDC
 // @Accept json
 // @Produce json
 // @Param id path string true "Current Client ID"
 // @Param body body dto.UpdateClientIDDto true "New client ID"
-// @Success 200 {object} dto.OidcClientWithAllowedUserGroupsDto
+// @Success 200 {object} dto.OidcClientWithAllowedUserGroupsDto "Updated client with allowed user groups"
 // @Router /api/oidc/clients/{id}/client-id [put]
 func (oc *OidcController) updateClientIDHandler(c *gin.Context) {
 	var input dto.UpdateClientIDDto
