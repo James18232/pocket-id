@@ -57,7 +57,7 @@
 			<div class="flex flex-col sm:flex-row items-center justify-between gap-4">
 				<Input
 					id="newClientIdInput"
-					bind:value={newClientIdInput}
+					value={newClientIdInput}
 					placeholder={`${client.id}`}
 					class="flex-grow"
 				/>
@@ -66,7 +66,7 @@
 			<div class="flex flex-col sm:flex-row items-center justify-between gap-4">
 				<Input
 					id="newClientSecretInput"
-					bind:value={newClientSecretInput}
+					value={newClientSecretInput}
 					placeholder={"••••••••••••••••••••••••••••••••"}
 					class="flex-grow"
 				/>
