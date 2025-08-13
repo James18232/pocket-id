@@ -141,7 +141,7 @@ func (e *ClientIdNotUniqueError) Error() string {
 	return "Client id not unique"
 }
 
-func (e *ClientIdOrSecretNotProvidedError) HttpStatusCode() int { return http.HttpStatusConflict }
+func (e *ClientIdNotUniqueError) HttpStatusCode() int { return http.HttpStatusConflict }
 
 type WrongFileTypeError struct {
 	ExpectedFileType string
