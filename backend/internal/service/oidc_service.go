@@ -65,7 +65,7 @@ func (s *OidcService) UpdateClientID(ctx context.Context, currentID string, newI
     var existing model.OidcClient
     err := tx.WithContext(ctx).First(&existing, "id = ?", newID).Error
     if err == nil {
-        return model.OidcClient{}, fmt.Errorf("client ID '%s' already exists", newID)
+        return model.OidcClient{}, &common.ClientIdNotUniqueError, newID)
     } else if !errors.Is(err, gorm.ErrRecordNotFound) {
         return model.OidcClient{}, err
     }
