@@ -45,7 +45,7 @@ func NewOidcController(group *gin.RouterGroup, authMiddleware *middleware.AuthMi
 	group.PUT("/oidc/clients/:id/allowed-user-groups", authMiddleware.Add(), oc.updateAllowedUserGroupsHandler)
 	group.POST("/oidc/clients/:id/secret", authMiddleware.Add(), oc.createClientSecretHandler)
 	group.PUT("/oidc/clients/:id/client-id", authMiddleware.Add(), oc.updateClientIDHandler)
-	group.PUT("/oidc/clients/:id/replace-secret", authMiddleware.Add(), oc.updateClientSecretHandler)
+	group.PUT("/oidc/clients/:id/client-secret", authMiddleware.Add(), oc.updateClientSecretHandler)
 	
 	group.GET("/oidc/clients/:id/logo", oc.getClientLogoHandler)
 	group.DELETE("/oidc/clients/:id/logo", oc.deleteClientLogoHandler)
@@ -74,8 +74,8 @@ type OidcController struct {
 // @Produce json
 // @Param id path string true "Current Client ID"
 // @Param body body dto.UpdateClientIDDto true "New client secret"
-// @Success 200 {object} dto.OidcClientWithAllowedUserGroupsDto "Updated client with allowed user groups"
-// @Router /api/oidc/clients/{id}/replace-secret [put]
+// @Success 200
+// @Router /api/oidc/clients/{id}/client-secret [put]
 func (oc *OidcController) updateClientSecretHandler(c *gin.Context) {
 	var input dto.UpdateClientSecretDto
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -83,19 +83,13 @@ func (oc *OidcController) updateClientSecretHandler(c *gin.Context) {
 		return
 	}
 
-	client, err := oc.oidcService.ReplaceClientSecret(c.Request.Context(), c.Param("id"), input.NewClientSecret)
+	err := oc.oidcService.ReplaceClientSecret(c.Request.Context(), c.Param("id"), input.NewClientSecret)
 	if err != nil {
 		_ = c.Error(err)
 		return
 	}
 
-	var clientDto dto.OidcClientWithAllowedUserGroupsDto
-	if err := dto.MapStruct(client, &clientDto); err != nil {
-		_ = c.Error(err)
-		return
-	}
-
-	c.JSON(http.StatusOK, clientDto)
+	c.Status(http.StatusOK)
 }
 
 // updateClientIDHandler godoc
