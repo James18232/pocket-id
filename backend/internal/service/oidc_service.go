@@ -868,14 +868,14 @@ func (s *OidcService) ReplaceClientSecret(ctx context.Context, clientID string, 
 		return "", err
 	}
 
-	newHash = string(hashedSecret)
+	newHash := string(hashedSecret)
 	
 	err = tx.WithContext(ctx).
         Model(&model.OidcClient{}).
-        Where("id = ?", currentID).
+        Where("id = ?", clientID).
         Update("secret", newHash).Error
     if err != nil {
-        return model.OidcClient{}, err
+        return "", err
     }
 
 	err = tx.Commit().Error
@@ -883,7 +883,7 @@ func (s *OidcService) ReplaceClientSecret(ctx context.Context, clientID string, 
 		return "", err
 	}
 
-	return clientSecret, nil
+	return nil
 }
 
 func (s *OidcService) GetClientLogo(ctx context.Context, clientID string) (string, string, error) {
