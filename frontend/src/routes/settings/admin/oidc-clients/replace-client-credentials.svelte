@@ -34,6 +34,16 @@
 		}
 	}
 
+	async function handleUpdateClientSecret() {
+		try {
+			const oidcService = new OidcService();
+			await oidcService.updateClientSecret(client.id, newClientSecretInput);	
+			toast.success('Client Secret updated successfully');		
+		} catch (e) {
+			axiosErrorToast(e);
+		}
+	}
+
 </script>
 
 <div {...restProps}>
@@ -60,7 +70,7 @@
 					placeholder={"••••••••••••••••••••••••••••••••"}
 					class="flex-grow"
 				/>
-				<Button class="mt-0 whitespace-nowrap" variant="secondary">{m.update()} {m.client_secret()}</Button>
+				<Button class="mt-0 whitespace-nowrap" variant="secondary" onclick={handleUpdateClientSecret}>{m.update()} {m.client_secret()}</Button>
 			</div>
 		</div>
 	{/if}
