@@ -860,12 +860,12 @@ func (s *OidcService) ReplaceClientSecret(ctx context.Context, clientID string, 
 		First(&client, "id = ?", clientID).
 		Error
 	if err != nil {
-		return "", err
+		return err
 	}
 
 	hashedSecret, err := bcrypt.GenerateFromPassword([]byte(newClientSecret), bcrypt.DefaultCost)
 	if err != nil {
-		return "", err
+		return err
 	}
 
 	newHash := string(hashedSecret)
@@ -875,12 +875,12 @@ func (s *OidcService) ReplaceClientSecret(ctx context.Context, clientID string, 
         Where("id = ?", clientID).
         Update("secret", newHash).Error
     if err != nil {
-        return "", err
+        return err
     }
 
 	err = tx.Commit().Error
 	if err != nil {
-		return "", err
+		return err
 	}
 
 	return nil
