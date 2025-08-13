@@ -15,7 +15,7 @@
 	import { slide } from 'svelte/transition';
 	import { z } from 'zod/v4';
 	import FederatedIdentitiesInput from './federated-identities-input.svelte';
-	import EditClientId from './replace-ClientID.svelte';
+	import EditClientCredentials from './replace-client-credentials.svelte';
 	import OidcCallbackUrlInput from './oidc-callback-url-input.svelte';
 
 	let {
@@ -182,7 +182,7 @@
 				/>
 			</div>
 			<div class="mt-5 md:col-span-2">
-				<EditClientId
+				<EditClientCredentials
 					client={existingClient}
 					onRefresh={onRefresh}
 				/> 
