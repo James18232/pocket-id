@@ -83,7 +83,7 @@ func (oc *OidcController) updateClientSecretHandler(c *gin.Context) {
 		return
 	}
 
-	client, err := oc.oidcService.UpdateClientID(c.Request.Context(), c.Param("id"), input.NewClientID)
+	client, err := oc.oidcService.ReplaceClientSecret(c.Request.Context(), c.Param("id"), input.NewClientSecret)
 	if err != nil {
 		_ = c.Error(err)
 		return
