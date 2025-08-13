@@ -1,11 +1,11 @@
 package dto
 
 type UpdateClientIDDto struct {
-    NewClientID string `json:"newClientId" binding:"required"`
+    NewClientID string `json:"NewClientId" binding:"required"`
 }
 
 type UpdateClientSecretDto struct {
-    NewClientSecret string `json:"newClientSecret" binding:"required"`
+    NewClientSecret string `json:"NewClientSecret" binding:"required"`
 }
 
 type OidcClientMetaDataDto struct {
