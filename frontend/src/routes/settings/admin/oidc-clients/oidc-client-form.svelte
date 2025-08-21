@@ -8,6 +8,7 @@
 	import Label from '$lib/components/ui/label/label.svelte';
 	import { m } from '$lib/paraglide/messages';
 	import type { OidcClient, OidcClientCreateWithLogo } from '$lib/types/oidc.type';
+	import OidcService from '$lib/services/oidc-service';
 	import { cachedOidcClientLogo } from '$lib/utils/cached-image-util';
 	import { preventDefault } from '$lib/utils/event-util';
 	import { createForm } from '$lib/utils/form-util';
