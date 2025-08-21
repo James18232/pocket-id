@@ -31,7 +31,7 @@
 	} = $props();
 
 	let isLoading = $state(false);
-	let newClientIdInput = $state(existingClient?.id ?? '');
+	let newClientIdInput: string = $state(null);
 	let showAdvancedOptions = $state(false);
 	let logo = $state<File | null | undefined>();
 	let logoDataURL: string | null = $state(
@@ -86,7 +86,7 @@
 	}
 
 	async function handleUpdateClientId() {
-		if (!client) return;
+		if (newClientIdInput == client.id) return;
 		try {
 			const oidcService = new OidcService();
 			await oidcService.updateClientId(client.id, newClientIdInput);
