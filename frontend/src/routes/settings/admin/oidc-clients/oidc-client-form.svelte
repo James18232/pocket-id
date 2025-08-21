@@ -201,9 +201,8 @@
 					class="flex-grow"
 				/>
 				<Button class="mt-0 whitespace-nowrap" variant="secondary" onclick={handleUpdateClientId}>
-					<TextCursorInput class="mr-1 size-4" />
-					{m.update()}
-					{m.client_id()}
+				<TextCursorInput class="mr-1 size-4" />
+					{m.update()} {m.client_id()}
 				</Button>
 			</div>
 			<div class="mt-5 md:col-span-2">
