@@ -12,10 +12,10 @@
 	import { createForm } from '$lib/utils/form-util';
 	import { cn } from '$lib/utils/style';
 	import { LucideChevronDown } from '@lucide/svelte';
+	import { TextCursorInput } from '@lucide/svelte';
 	import { slide } from 'svelte/transition';
 	import { z } from 'zod/v4';
 	import FederatedIdentitiesInput from './federated-identities-input.svelte';
-	import EditClientCredentials from './replace-client-credentials.svelte';
 	import OidcCallbackUrlInput from './oidc-callback-url-input.svelte';
 	import { optionalUrl } from '$lib/utils/zod-util';
 
@@ -84,6 +84,17 @@
 		isLoading = false;
 	}
 
+	async function handleUpdateClientId() {
+	if (!client) return;
+	try {
+		const oidcService = new OidcService();
+		await oidcService.updateClientId(client.id, newClientIdInput);	
+		toast.success('Client ID updated successfully');
+		onRefresh?.(newClientIdInput);			
+	} catch (e) {
+		axiosErrorToast(e);
+	}
+
 	function onLogoChange(e: Event) {
 		const file = (e.target as HTMLInputElement).files?.[0] || null;
 		if (file) {
@@ -109,7 +120,6 @@
 				return e;
 			});
 	}
-
 </script>
 
 <form onsubmit={preventDefault(onSubmit)}>
@@ -182,19 +192,26 @@
 	</div>
 
 	{#if showAdvancedOptions}
-		<div transition:slide={{ duration: 200 }}>		
+		<div transition:slide={{ duration: 200 }}>
+			<div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
+				<Input
+					id="newClientIdInput"
+					bind:value={newClientIdInput}
+					placeholder={client?.id ?? ''}
+					class="flex-grow"
+				/>
+				<Button class="mt-0 whitespace-nowrap" variant="secondary" onclick={handleUpdateClientId}>
+					<TextCursorInput class="mr-1 size-4" />
+					{m.update()}
+					{m.client_id()}
+				</Button>
+			</div>
 			<div class="mt-5 md:col-span-2">
 				<FederatedIdentitiesInput
 					client={existingClient}
 					bind:federatedIdentities={$inputs.credentials.value.federatedIdentities}
 					errors={getFederatedIdentityErrors($errors)}
 				/>
-			</div>
-			<div class="mt-5 md:col-span-2">
-				<EditClientCredentials
-					client={existingClient}
-					onRefresh={onRefresh}
-				/> 
 			</div>
 		</div>
 	{/if}
