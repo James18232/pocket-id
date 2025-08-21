@@ -86,6 +86,7 @@
 	}
 
 	async function handleUpdateClientId() {
+		console.log('Button clicked!');
 		if (newClientIdInput == client.id) return;
 		try {
 			const oidcService = new OidcService();
