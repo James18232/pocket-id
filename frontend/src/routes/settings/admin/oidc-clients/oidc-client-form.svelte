@@ -31,9 +31,8 @@
 	} = $props();
 
 	let isLoading = $state(false);
-	let newClientIdInput = $state<OidcClientMetaData['id']>('');
+	let newClientIdInput = $state(existingClient?.id ?? '');
 	let showAdvancedOptions = $state(false);
-	let newClientIdInput = $state('');
 	let logo = $state<File | null | undefined>();
 	let logoDataURL: string | null = $state(
 		existingClient?.hasLogo ? cachedOidcClientLogo.getUrl(existingClient!.id) : null
