@@ -88,10 +88,10 @@
 
 	async function handleUpdateClientId() {
 		console.log('Button clicked!');
-		if (newClientIdInput == client.id) return;
+		if (newClientIdInput == existingClient.id) return;
 		try {
 			const oidcService = new OidcService();
-			await oidcService.updateClientId(client.id, newClientIdInput);
+			await oidcService.updateClientId(existingClient.id, newClientIdInput);
 			toast.success('Client ID updated successfully');
 			onRefresh?.(newClientIdInput);
 		} catch (e) {
@@ -200,7 +200,7 @@
 				<Input
 					id="newClientIdInput"
 					bind:value={newClientIdInput}
-					placeholder={client?.id ?? ''}
+					placeholder={existingClient?.id ?? ''}
 					class="flex-grow"
 				/>
 				<Button class="mt-0 whitespace-nowrap" variant="secondary" onclick={handleUpdateClientId}>
