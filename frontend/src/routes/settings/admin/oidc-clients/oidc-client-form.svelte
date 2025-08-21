@@ -1,7 +1,7 @@
 <script lang="ts">
 	import FileInput from '$lib/components/form/file-input.svelte';
 	import FormInput from '$lib/components/form/form-input.svelte';
-	import { Input } from '$lib/components/ui/input';
+
 	import SwitchWithLabel from '$lib/components/form/switch-with-label.svelte';
 	import ImageBox from '$lib/components/image-box.svelte';
 	import { Button } from '$lib/components/ui/button';
@@ -195,13 +195,18 @@
 	{#if showAdvancedOptions}
 		<div transition:slide={{ duration: 200 }}>
 			<div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
-				<Input
+				<FormInput
 					id="newClientIdInput"
 					bind:value={newClientIdInput}
 					placeholder={client?.id ?? ''}
 					class="flex-grow"
 				/>
-				<Button class="mt-0 whitespace-nowrap" variant="secondary" onclick={handleUpdateClientId}>
+				<Button
+					class="mt-0 whitespace-nowrap"
+					variant="secondary"
+					onclick={handleUpdateClientId}
+					type="button"
+				>
 					<TextCursorInput class="mr-1 size-4" />
 					{m.update()}
 					{m.client_id()}
