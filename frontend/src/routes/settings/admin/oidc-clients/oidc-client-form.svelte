@@ -19,6 +19,7 @@
 	import FederatedIdentitiesInput from './federated-identities-input.svelte';
 	import OidcCallbackUrlInput from './oidc-callback-url-input.svelte';
 	import { optionalUrl } from '$lib/utils/zod-util';
+	import { axiosErrorToast } from '$lib/utils/error-util';
 
 	let {
 		callback,
