@@ -31,6 +31,7 @@
 	} = $props();
 
 	let isLoading = $state(false);
+	let newClientIdInput = $state<OidcClientMetaData['id']>('');
 	let showAdvancedOptions = $state(false);
 	let newClientIdInput = $state('');
 	let logo = $state<File | null | undefined>();
@@ -201,11 +202,7 @@
 					placeholder={client?.id ?? ''}
 					class="flex-grow"
 				/>
-				<Button
-					class="mt-0 whitespace-nowrap"
-					variant="secondary"
-					onclick={handleUpdateClientId}
-				>
+				<Button class="mt-0 whitespace-nowrap" variant="secondary" onclick={handleUpdateClientId}>
 					<TextCursorInput class="mr-1 size-4" />
 					{m.update()}
 					{m.client_id()}
