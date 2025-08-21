@@ -1,6 +1,7 @@
 <script lang="ts">
 	import FileInput from '$lib/components/form/file-input.svelte';
 	import FormInput from '$lib/components/form/form-input.svelte';
+	import { Input } from '$lib/components/ui/input';
 	import SwitchWithLabel from '$lib/components/form/switch-with-label.svelte';
 	import ImageBox from '$lib/components/image-box.svelte';
 	import { Button } from '$lib/components/ui/button';
@@ -201,8 +202,9 @@
 					class="flex-grow"
 				/>
 				<Button class="mt-0 whitespace-nowrap" variant="secondary" onclick={handleUpdateClientId}>
-				<TextCursorInput class="mr-1 size-4" />
-					{m.update()} {m.client_id()}
+					<TextCursorInput class="mr-1 size-4" />
+					{m.update()}
+					{m.client_id()}
 				</Button>
 			</div>
 			<div class="mt-5 md:col-span-2">
