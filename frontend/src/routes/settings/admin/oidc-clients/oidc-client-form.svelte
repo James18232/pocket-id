@@ -198,8 +198,8 @@
 
 	{#if showAdvancedOptions}
 		<div transition:slide={{ duration: 200 }}>
-			<div class="mt-8 flex flex-col items-center justify-between gap-4 sm:flex-row">
-				<Label for="newClientIdInput">Update the Client ID</Label>
+			<div class="mt-8 flex flex-col items-start justify-between gap-4 sm:flex-row">
+				<Label for="newClientIdInput">{m.update()} {m.client_id()}</Label>
 				<Input
 					id="newClientIdInput"
 					bind:value={newClientIdInput}
