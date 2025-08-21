@@ -85,16 +85,16 @@
 	}
 
 	async function handleUpdateClientId() {
-	if (!client) return;
-	try {
-		const oidcService = new OidcService();
-		await oidcService.updateClientId(client.id, newClientIdInput);	
-		toast.success('Client ID updated successfully');
-		onRefresh?.(newClientIdInput);			
-	} catch (e) {
-		axiosErrorToast(e);
+		if (!client) return;
+		try {
+			const oidcService = new OidcService();
+			await oidcService.updateClientId(client.id, newClientIdInput);
+			toast.success('Client ID updated successfully');
+			onRefresh?.(newClientIdInput);
+		} catch (e) {
+			axiosErrorToast(e);
+		}
 	}
-
 	function onLogoChange(e: Event) {
 		const file = (e.target as HTMLInputElement).files?.[0] || null;
 		if (file) {
