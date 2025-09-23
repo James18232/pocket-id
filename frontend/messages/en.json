@@ -451,5 +451,5 @@
 	"configure_application_images": "Configure Application Images",
 	"ui_config_disabled_info_title": "UI Configuration Disabled",
 	"ui_config_disabled_info_description": "The UI configuration is disabled because the application configuration settings are managed through environment variables. Some settings may not be editable.",
-	"to_access": "to access",
+	"to_access": "to access"
 
