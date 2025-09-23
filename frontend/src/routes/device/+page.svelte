@@ -84,6 +84,9 @@
 		{/if}
 	</div>
 	<h1 class="font-playfair mt-5 text-4xl font-bold">{m.authorize_device()}</h1>
+	<h2 class="font-playfair text-2xl font-bold sm:text-xl">
+		{m.to_access ({ client: deviceInfo!.client.name })}
+	</h2>
 	{#if errorMessage}
 		<p class="text-muted-foreground mt-2">
 			{errorMessage}. {m.please_try_again()}
