@@ -524,7 +524,7 @@ func (uc *UserController) exchangeOneTimeAccessTokenHandler(c *gin.Context) {
 
 	if setCookie {
 		maxAge := int(uc.appConfigService.GetDbConfig().SessionDuration.AsDurationMinutes().Seconds())
-		cookie.AddAccessTokenCookie(c, maxAge, token)
+		cookie.AddAccessTokenCookie(c, 5, token)
 	}
 
 	c.JSON(http.StatusOK, userDto)
