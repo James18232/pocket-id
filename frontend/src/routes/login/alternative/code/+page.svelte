@@ -29,7 +29,7 @@
 	async function authenticate() {
 		isLoading = true;
 		try {
-			const user = await userService.exchangeOneTimeAccessToken(code);
+			const user = await userService.exchangeOneTimeAccessToken({ token: code });
 			await userStore.setUser(user);
 
 			try {
