@@ -95,8 +95,8 @@ export default class UserService extends APIService {
 		return res.data.token;
 	};
 
-	exchangeOneTimeAccessToken = async (token: string) => {
-		const res = await this.api.post(`/one-time-access-token/${token}`);
+	exchangeOneTimeAccessToken = async (token: string, setCookie: boolean = false) => {
+		const res = await this.api.post(`/one-time-access-token/${token}?setCookie=${setCookie}`);
 		return res.data as User;
 	};
 
