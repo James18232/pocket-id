@@ -29,7 +29,10 @@
 	async function authenticate() {
 		isLoading = true;
 		try {
-			const user = await userService.exchangeOneTimeAccessToken({ token: code });
+			const user = await userService.exchangeOneTimeAccessToken({
+            	useIncognito: true,
+				token: code 
+			});
 			await userStore.setUser(user);
 
 			try {
