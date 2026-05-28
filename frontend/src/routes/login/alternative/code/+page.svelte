@@ -50,7 +50,7 @@
 
 	onMount(() => {
 		if (code) {
-			authenticate();
+			authenticate('normal');
 		}
 	});
 </script>
