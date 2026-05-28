@@ -82,7 +82,7 @@
 		<div class="mt-8 flex justify-between gap-2">
 			<Button variant="secondary" class="flex-1" href={backHref}>{m.go_back()}</Button>
 			<Button class="flex-1" type="submit" {isLoading} onclick={() => (useIncognito = false)}>{m.submit()}</Button>
-			<Button class="flex-1" type="submit" {isLoading} onclick={() => (useIncognito = true)} >Incognito</Button>
+			<Button class="flex-1" type="submit" {isLoading} onclick={() => (useIncognito = true)}>Incognito</Button>
 		</div>
 	</form>
 </SignInWrapper>
