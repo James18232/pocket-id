@@ -83,7 +83,7 @@
 		<div class="mt-8 flex justify-between gap-2">
 			<Button variant="secondary" class="flex-1" href={backHref}>{m.go_back()}</Button>
 			<Button class="flex-1" {isLoading} onclick={() => authenticate('normal')}>{m.submit()}</Button>
-			<Button class="flex-1 bg-purple-500 hover:bg-purple-700" {isLoading} onclick={() => authenticate('incognito')}>Incognito</Button>
+			<Button class="flex-1 bg-purple-600 hover:bg-purple-700" {isLoading} onclick={() => authenticate('incognito')}>Incognito</Button>
 		</div>
 	</form>
 </SignInWrapper>
