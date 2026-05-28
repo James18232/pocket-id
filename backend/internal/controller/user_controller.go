@@ -508,7 +508,7 @@ func (uc *UserController) RequestOneTimeAccessEmailAsAdminHandler(c *gin.Context
 // @Success 200 {object} dto.UserDto
 // @Router /api/one-time-access-token/{token} [post]
 func (uc *UserController) exchangeOneTimeAccessTokenHandler(c *gin.Context) {
-	useIncognito := c.DefaultQuery("useIncognito", "false") == "true"
+	useIncognito := c.DefaultQuery("incognito", "false") == "true"
 	deviceToken, _ := c.Cookie(cookie.DeviceTokenCookieName)
 	user, token, err := uc.oneTimeAccessService.ExchangeOneTimeAccessToken(c.Request.Context(), c.Param("token"), deviceToken, c.ClientIP(), c.Request.UserAgent())
 	if err != nil {
