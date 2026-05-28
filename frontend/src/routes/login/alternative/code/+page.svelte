@@ -16,7 +16,7 @@
 	let isLoading = $state(false);
 	let error: string | undefined = $state();
 	let backHref = $state('/login/alternative');
-	let useIncognito = false;
+	let useIncognito = $state(false);
 	const userService = new UserService();
 
 	// If the previous page is a Pocket ID page, go back there instead of the generic alternative login page
