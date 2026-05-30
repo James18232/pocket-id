@@ -50,6 +50,7 @@
 	}
 
 	onMount(() => {
+		console.log("=== TARGET PAGE DATA PAYLOAD ===", data);
 		if (code) {
 			authenticate('normal');
 		}
