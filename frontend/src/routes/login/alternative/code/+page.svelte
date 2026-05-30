@@ -52,10 +52,11 @@
 
 	onMount(() => {
 		console.log({
-            clientName: $appConfigStore.appName,
-            appName: data.appConfigName
-        });
-		
+			clientName: $appConfigStore.appName,
+			appName: data.appConfigName,
+			fullPageDataPayload: data
+		});
+
 		if (code) {
 			authenticate('normal');
 		}
