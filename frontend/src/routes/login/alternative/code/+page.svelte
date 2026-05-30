@@ -16,7 +16,6 @@
 	let isLoading = $state(false);
 	let error: string | undefined = $state();
 	let backHref = $state('/login/alternative');
-	let useIncognito = $state(false);
 
 	const userService = new UserService();
 
@@ -52,7 +51,6 @@
 	}
 
 	onMount(() => {
-		console.log("=== TARGET PAGE DATA PAYLOAD ===", data);
 		if (code) {
 			authenticate('normal');
 		}
