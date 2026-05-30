@@ -6,7 +6,6 @@
 	import { m } from '$lib/paraglide/messages';
 	import UserService from '$lib/services/user-service';
 	import userStore from '$lib/stores/user-store.js';
-	import appConfigStore from '$lib/stores/application-configuration-store';
 	import { getAxiosErrorMessage } from '$lib/utils/error-util';
 	import { preventDefault } from '$lib/utils/event-util';
 	import { onMount } from 'svelte';
@@ -51,12 +50,6 @@
 	}
 
 	onMount(() => {
-		console.log({
-			clientName: $appConfigStore.appName,
-			appName: data.appConfigName,
-			fullPageDataPayload: data
-		});
-
 		if (code) {
 			authenticate('normal');
 		}
@@ -91,7 +84,7 @@
 		<div class="mt-8 flex justify-between gap-2">
 			<Button variant="secondary" class="flex-1" href={backHref}>{m.go_back()}</Button>
 			<Button class="flex-1" {isLoading} onclick={() => authenticate('normal')}>{m.submit()}</Button>
-			{#if $appConfigStore.appName !== data.appConfigName}
+			{#if data.isExternalClient}
 				<Button 
 					class="flex-1 bg-purple-600 hover:bg-purple-700" 
 					{isLoading} 
