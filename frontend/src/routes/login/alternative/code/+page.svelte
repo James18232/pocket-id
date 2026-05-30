@@ -7,12 +7,10 @@
 	import UserService from '$lib/services/user-service';
 	import userStore from '$lib/stores/user-store.js';
 	import appConfigStore from '$lib/stores/application-configuration-store';
-	import type { AllAppConfig } from '$lib/types/application-configuration.type';
 	import { getAxiosErrorMessage } from '$lib/utils/error-util';
 	import { preventDefault } from '$lib/utils/event-util';
 	import { onMount } from 'svelte';
 	import LoginLogoErrorSuccessIndicator from '../../components/login-logo-error-success-indicator.svelte';
-	import AppConfigService from '$lib/services/app-config-service';
 
 	let { data } = $props();
 	let code = $state(data.code ?? '');
@@ -87,7 +85,7 @@
 		<div class="mt-8 flex justify-between gap-2">
 			<Button variant="secondary" class="flex-1" href={backHref}>{m.go_back()}</Button>
 			<Button class="flex-1" {isLoading} onclick={() => authenticate('normal')}>{m.submit()}</Button>
-			{#if $appConfigStore.appName !== data.appConfig?.appName}
+			{#if $appConfigStore.appName !== data.appConfigName}
 				<Button 
 					class="flex-1 bg-purple-600 hover:bg-purple-700" 
 					{isLoading} 
