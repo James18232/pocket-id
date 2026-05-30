@@ -51,6 +51,11 @@
 	}
 
 	onMount(() => {
+		console.log({
+            clientName: $appConfigStore.appName,
+            appName: data.appConfigName
+        });
+		
 		if (code) {
 			authenticate('normal');
 		}
