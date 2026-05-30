@@ -20,6 +20,8 @@
 
 	const userService = new UserService();
 
+	const isExternalClient = $derived(data.redirect?.includes('client_id'));
+	
 	// If the previous page is a Pocket ID page, go back there instead of the generic alternative login page
 	afterNavigate((e) => {
 		if (e.from?.url.pathname) {
