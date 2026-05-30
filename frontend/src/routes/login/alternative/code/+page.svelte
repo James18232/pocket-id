@@ -14,7 +14,7 @@
 	import LoginLogoErrorSuccessIndicator from '../../components/login-logo-error-success-indicator.svelte';
 	import AppConfigService from '$lib/services/app-config-service';
 
-	let { data, appConfig }: { data: any, appConfig: AllAppConfig } = $props();
+	let { data } = $props();
 	let code = $state(data.code ?? '');
 	let isLoading = $state(false);
 	let error: string | undefined = $state();
@@ -87,7 +87,7 @@
 		<div class="mt-8 flex justify-between gap-2">
 			<Button variant="secondary" class="flex-1" href={backHref}>{m.go_back()}</Button>
 			<Button class="flex-1" {isLoading} onclick={() => authenticate('normal')}>{m.submit()}</Button>
-			{#if $appConfigStore.appName !== appConfig.appName}
+			{#if $appConfigStore.appName !== data.appConfig?.appName}
 				<Button 
 					class="flex-1 bg-purple-600 hover:bg-purple-700" 
 					{isLoading} 
