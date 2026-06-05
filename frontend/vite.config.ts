@@ -6,6 +6,10 @@ import viteCompression from 'vite-plugin-compression';
 
 export default defineConfig((mode) => {
 	return {
+		build: {
+			assetsInlineLimit: 0
+		},
+		
 		plugins: [
 			sveltekit(),
 			tailwindcss(),
