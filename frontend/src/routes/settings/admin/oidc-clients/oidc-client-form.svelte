@@ -101,7 +101,7 @@
 	const basePkceDescription = m.public_key_code_exchange_is_a_security_feature_to_prevent_csrf_and_authorization_code_interception_attacks()
 
 	async function onSubmit() {
-		
+		const data = form.validate();
 		if (!data) return;
 		isLoading = true;
 
