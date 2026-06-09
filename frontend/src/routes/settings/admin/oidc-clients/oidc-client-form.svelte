@@ -102,6 +102,14 @@
 	const basePkceDescription = m.public_key_code_exchange_is_a_security_feature_to_prevent_csrf_and_authorization_code_interception_attacks()
 
 	async function onSubmit() {
+		console.log("Current Form Inputs:", $inputs);
+		const data = form.validate();
+		console.log("Validated Data Payload:", data);
+		if (!data) {
+			console.error("Zod Validation Failed!", $errors);
+			return;
+		}
+		
 		const data = form.validate();
 		if (!data) return;
 		isLoading = true;
