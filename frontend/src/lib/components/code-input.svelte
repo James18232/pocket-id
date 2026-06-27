@@ -45,7 +45,7 @@
 
 <div
 	class={length > 6
-		? 'relative max-sm:grid max-sm:grid-cols-8 max-sm:justify-items-center gap-x-1 gap-y-3 sm:flex sm:flex-row sm:items-center sm:justify-center sm:gap-x-1.5'
+		? 'relative max-sm:grid max-sm:grid-cols[repeat(8,40px)] max-sm:justify-items-center gap-x-1 gap-y-3 sm:flex sm:flex-row sm:items-center sm:justify-center sm:gap-x-1.5'
 		: 'relative flex flex-nowrap items-center justify-center gap-x-1.5'}
 >
 	{#each chars as char, i}
