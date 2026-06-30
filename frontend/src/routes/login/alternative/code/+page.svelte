@@ -29,6 +29,7 @@
 	});
 
 	async function authenticate(mode: 'normal' | 'incognito') {
+		if (!code?.trim()) return;
 		isLoading = true;
 		const isIncognito = mode === 'incognito';
 		try {
@@ -65,7 +66,7 @@
 	<div class="flex justify-center">
 		<LoginLogoErrorSuccessIndicator error={!!error} />
 	</div>
-	<h1 class="font-playfair mt-5 text-4xl font-bold">{m.login_code()}</h1>
+	<h1 class="font-gloock mt-5 text-4xl font-bold">{m.login_code()}</h1>
 	{#if error}
 		<p class="text-muted-foreground mt-2">
 			{error}. {m.please_try_again()}
