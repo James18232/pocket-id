@@ -16,10 +16,12 @@
 
 	let {
 		children,
-		showAlternativeSignInMethodButton = false
+		showAlternativeSignInMethodButton = false,
+		hasClient = ''
 	}: {
 		children: Snippet;
 		showAlternativeSignInMethodButton?: boolean;
+		hasClient?: string;
 	} = $props();
 
 	let isInitialLoad = $state(false);
@@ -48,12 +50,17 @@
 			alternativeSignInButton.href = '/login/alternative';
 			alternativeSignInButton.label = m.alternative_sign_in_methods();
 		} else {
-			alternativeSignInButton.href = '/login/alternative/code';
+			alternativeSignInButton.href = hasClient
+				? '/login/alternative/code?clientID=' + encodeURIComponent(hasClient)
+				: '/login/alternative/code';
 			alternativeSignInButton.label = m.sign_in_with_login_code();
 		}
 
 		if (page.url.pathname != '/login') {
-			alternativeSignInButton.href = `${alternativeSignInButton.href}?redirect=${encodeURIComponent(page.url.pathname + page.url.search)}`;
+			// Dynamically choose '?' or '&' to prevent malformed URLs
+			const separator = alternativeSignInButton.href.includes('?') ? '&' : '?';
+
+			alternativeSignInButton.href = `${alternativeSignInButton.href}${separator}redirect=${encodeURIComponent(page.url.pathname + page.url.search)}`;
 		}
 	});
 </script>

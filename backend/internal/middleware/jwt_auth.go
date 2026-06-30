@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"log/slog"
 	"strings"
 	"time"
 
@@ -21,22 +22,26 @@ func NewJwtAuthMiddleware(jwtService *service.JwtService, userService *service.U
 
 func (m *JwtAuthMiddleware) Add(adminRequired bool) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		userID, isAdmin, authenticationMethod, authenticationTime, err := m.Verify(c, adminRequired)
+		userID, isAdmin, authenticationMethod, authenticationTime, permittedClients, err := m.Verify(c, adminRequired)
 		if err != nil {
 			c.Abort()
 			_ = c.Error(err)
 			return
 		}
-
+		slog.InfoContext(c.Request.Context(), "jwt middleware execution tracking",
+			"permittedClients", permittedClients,
+			"userID", userID,
+		)
 		c.Set("userID", userID)
 		c.Set("userIsAdmin", isAdmin)
 		c.Set("authenticationMethod", authenticationMethod)
 		c.Set("authenticationTime", authenticationTime)
+		c.Set("permittedClients", permittedClients)
 		c.Next()
 	}
 }
 
-func (m *JwtAuthMiddleware) Verify(c *gin.Context, adminRequired bool) (subject string, isAdmin bool, authenticationMethod string, authenticationTime time.Time, err error) {
+func (m *JwtAuthMiddleware) Verify(c *gin.Context, adminRequired bool) (subject string, isAdmin bool, authenticationMethod string, authenticationTime time.Time, permittedClients string, err error) {
 	// Extract the token from the cookie
 	accessToken, err := c.Cookie(cookie.AccessTokenCookieName)
 	if err != nil {
@@ -44,38 +49,44 @@ func (m *JwtAuthMiddleware) Verify(c *gin.Context, adminRequired bool) (subject 
 		var ok bool
 		_, accessToken, ok = strings.Cut(c.GetHeader("Authorization"), " ")
 		if !ok || accessToken == "" {
-			return "", false, "", time.Time{}, &common.NotSignedInError{}
+			return "", false, "", time.Time{}, "", &common.NotSignedInError{}
 		}
 	}
 
 	token, err := m.jwtService.VerifyAccessToken(accessToken)
 	if err != nil {
-		return "", false, "", time.Time{}, &common.NotSignedInError{}
+		return "", false, "", time.Time{}, "", &common.NotSignedInError{}
 	}
+
+	permittedClients, err = m.jwtService.GetPermittedClients(token)
+	if err != nil {
+		return "", false, "", time.Time{}, "", &common.NotSignedInError{}
+	}
+
 	authenticationMethod, err = m.jwtService.GetAuthenticationMethod(token)
 	if err != nil {
-		return "", false, "", time.Time{}, &common.NotSignedInError{}
+		return "", false, "", time.Time{}, "", &common.NotSignedInError{}
 	}
 	authenticationTime, _ = token.IssuedAt()
 
 	subject, ok := token.Subject()
 	if !ok {
 		_ = c.Error(&common.TokenInvalidError{})
-		return "", false, "", time.Time{}, &common.TokenInvalidError{}
+		return "", false, "", time.Time{}, "", &common.TokenInvalidError{}
 	}
 
 	user, err := m.userService.GetUser(c, subject)
 	if err != nil {
-		return "", false, "", time.Time{}, &common.NotSignedInError{}
+		return "", false, "", time.Time{}, "", &common.NotSignedInError{}
 	}
 
 	if user.Disabled {
-		return "", false, "", time.Time{}, &common.UserDisabledError{}
+		return "", false, "", time.Time{}, "", &common.UserDisabledError{}
 	}
 
 	if adminRequired && !user.IsAdmin {
-		return "", false, "", time.Time{}, &common.MissingPermissionError{}
+		return "", false, "", time.Time{}, "", &common.MissingPermissionError{}
 	}
 
-	return subject, user.IsAdmin, authenticationMethod, authenticationTime, nil
+	return subject, user.IsAdmin, authenticationMethod, authenticationTime, permittedClients, nil
 }

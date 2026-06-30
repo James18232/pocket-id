@@ -509,7 +509,8 @@ func (uc *UserController) RequestOneTimeAccessEmailAsAdminHandler(c *gin.Context
 // @Success 200 {object} dto.UserDto
 // @Router /api/one-time-access-token/{token} [post]
 func (uc *UserController) exchangeOneTimeAccessTokenHandler(c *gin.Context) {
-	useIncognito := c.DefaultQuery("incognito", "false") == "true"
+	incognitoClientID := c.DefaultQuery("incognito", "")
+	useIncognito := incognitoClientID != ""
 	loginCode := c.Param("token")
 	// reject invalid length login codes
 	if len(loginCode) != 6 && len(loginCode) != 16 {
@@ -518,7 +519,7 @@ func (uc *UserController) exchangeOneTimeAccessTokenHandler(c *gin.Context) {
 	}
 
 	deviceToken, _ := c.Cookie(cookie.DeviceTokenCookieName)
-	user, token, err := uc.oneTimeAccessService.ExchangeOneTimeAccessToken(c.Request.Context(), loginCode, deviceToken, c.ClientIP(), c.Request.UserAgent())
+	user, token, err := uc.oneTimeAccessService.ExchangeOneTimeAccessToken(c.Request.Context(), loginCode, deviceToken, c.ClientIP(), c.Request.UserAgent(), incognitoClientID)
 	if err != nil {
 		_ = c.Error(err)
 		return
@@ -529,7 +530,7 @@ func (uc *UserController) exchangeOneTimeAccessTokenHandler(c *gin.Context) {
 		_ = c.Error(err)
 		return
 	}
-
+	
 	if useIncognito {
 		cookie.AddAccessTokenCookie(c, 2, token)
 	} else {

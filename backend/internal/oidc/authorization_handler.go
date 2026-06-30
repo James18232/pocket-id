@@ -38,15 +38,23 @@ func newAuthorizationHandler(
 func (h *authorizationHandler) authorize(c *gin.Context) {
 	ctx := c.Request.Context()
 	userID := c.GetString("userID")
+	permittedClients := c.GetString("permittedClients")
+	requestedClientID := c.GetString("requestedClientID")
 	authenticationMethod := c.GetString("authenticationMethod")
 	authenticationTime, _ := c.Get("authenticationTime")
 	typedAuthenticationTime, _ := authenticationTime.(time.Time)
 	reauthenticationToken, _ := c.Cookie(cookie.ReauthenticationTokenCookieName)
 
+	slog.ErrorContext(ctx, "Checking permitted client for authorization request initial",
+		"permittedClients", permittedClients,
+		"requestedClientID", requestedClientID,
+		"userID", userID,
+	)
 	// A request that resumes an interaction only carries the interaction ID; the original
 	// parameters are restored from the stored session so they never travel through the
 	// front channel.
 	interactionID := c.Query("interaction")
+	slog.ErrorContext(ctx, "integration id check", "interaction id found", interactionID)
 	if interactionID != "" {
 		query, err := h.authorizationService.interactionRequestQuery(ctx, interactionID)
 		if err != nil {
@@ -55,6 +63,15 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 			return
 		}
 		c.Request.URL.RawQuery = query.Encode()
+	} else {
+		slog.ErrorContext(ctx, "saving query", "permittedClients", permittedClients)
+		if permittedClients != "" {
+			slog.ErrorContext(ctx, "saving query")
+			query := c.Request.URL.Query()
+			query.Set("permittedClients", permittedClients)
+			c.Request.URL.RawQuery = query.Encode()
+			slog.ErrorContext(ctx, "saving query", "new query", c.Request.URL.RawQuery)
+		}
 	}
 
 	// Treat the request as a pushed authorization request only when the request_uri carries the
@@ -68,6 +85,13 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 		h.writeAuthorizeError(ctx, c, ar, err)
 		return
 	}
+	requestedClientID = ar.GetClient().GetID()
+
+	slog.ErrorContext(ctx, "Checking permitted client for authorization request",
+		"permittedClients", permittedClients,
+		"requestedClientID", requestedClientID,
+		"userID", userID,
+	)
 
 	authorization, err := h.authorizationService.authorize(ctx, authorizeInput{
 		userID:                        userID,

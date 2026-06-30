@@ -76,9 +76,18 @@ func (s *Session) GetExtraClaims() map[string]interface{} {
 		return map[string]interface{}{}
 	}
 
-	return map[string]interface{}{
+	extraClaims := map[string]interface{}{
 		"iss": s.Claims.Issuer,
 	}
+
+	val := s.Claims.Get("permitted_clients")
+
+	allowedClientsStr, ok := val.(string)
+
+	if ok {
+		extraClaims["permitted_clients"] = allowedClientsStr
+	}
+	return extraClaims
 }
 
 func (s *Session) GetSubject() string {

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/google/uuid"
@@ -182,6 +183,14 @@ func (s *JwtService) SetKey(privateKey jwk.Key) error {
 }
 
 func (s *JwtService) GenerateAccessToken(user model.User, authenticationMethod string) (string, error) {
+	return s.GenerateAccessTokenForClient(user, authenticationMethod, "all")
+}
+
+func (s *JwtService) GenerateAccessTokenForClient(user model.User, authenticationMethod, incognitoClientID string) (string, error) {
+
+	if incognitoClientID == "" {
+		incognitoClientID = "all"
+	}
 
 	now := time.Now()
 	token, err := jwt.NewBuilder().
@@ -190,6 +199,7 @@ func (s *JwtService) GenerateAccessToken(user model.User, authenticationMethod s
 		IssuedAt(now).
 		Issuer(s.envConfig.AppURL).
 		JwtID(uuid.New().String()).
+		Claim("permitted_clients", incognitoClientID).
 		Build()
 	if err != nil {
 		return "", fmt.Errorf("failed to build token: %w", err)
@@ -309,6 +319,24 @@ func (s *JwtService) GetAuthenticationMethod(token jwt.Token) (string, error) {
 		return "", fmt.Errorf("invalid '%s' claim in token: expected array of strings", common.AuthenticationMethodsClaim)
 	}
 	return authenticationMethod, nil
+}
+
+// GetPermittedClients returns the value in the "permitted_clients" claim in the token
+func (s *JwtService) GetPermittedClients(token jwt.Token) (string, error) {
+	const permittedClientsClaim = "permitted_clients"
+
+	if !token.Has(permittedClientsClaim) {
+		return "", nil
+	}
+
+	var permittedClients string
+	err := token.Get(permittedClientsClaim, &permittedClients)
+	if err != nil {
+		return "", fmt.Errorf("failed to get '%s' claim from token: %w", permittedClientsClaim, err)
+	}
+
+	log.Printf("[SUCCESS] Successfully extracted '%s': %s", permittedClientsClaim, permittedClients)
+	return permittedClients, nil
 }
 
 // SetTokenType sets the "type" claim in the token

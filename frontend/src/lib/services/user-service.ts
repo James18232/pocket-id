@@ -95,8 +95,13 @@ export default class UserService extends APIService {
 		return res.data.token;
 	};
 
-	exchangeOneTimeAccessToken = async ({token, useIncognito = false} : {token: string; useIncognito?: boolean}) => {
-		const res = await this.api.post(`/one-time-access-token/${token}?incognito=${useIncognito}`);
+	exchangeOneTimeAccessToken = async ({ token, useIncognito }: { token: string; useIncognito?: string }) => {
+
+		let url = `/one-time-access-token/${token}`;
+		if (useIncognito) {
+			url += `?incognito=${useIncognito}`;
+		}
+		const res = await this.api.post(url);
 		return res.data as User;
 	};
 

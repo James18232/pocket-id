@@ -19,8 +19,8 @@
 
 	const userService = new UserService();
 
-	const isExternalClient = $derived(data.redirect?.includes('client_id'));
-	
+	const isExternalClient = data.clientID ?? '';
+
 	// If the previous page is a Pocket ID page, go back there instead of the generic alternative login page
 	afterNavigate((e) => {
 		if (e.from?.url.pathname) {
@@ -31,12 +31,16 @@
 	async function authenticate(mode: 'normal' | 'incognito') {
 		if (!code?.trim()) return;
 		isLoading = true;
-		const isIncognito = mode === 'incognito';
 		try {
-			const user = await userService.exchangeOneTimeAccessToken({
-			useIncognito: isIncognito,
-				token: code 
-			});
+			const payload: { token: string; useIncognito?: string } = {
+				token: code
+			};
+
+			if (mode === 'incognito') {
+				payload.useIncognito = isExternalClient;
+			}
+
+			const user = await userService.exchangeOneTimeAccessToken(payload);
 			await userStore.setUser(user);
 
 			try {
@@ -85,14 +89,15 @@
 		/>
 		<div class="mt-8 flex justify-between gap-2">
 			<Button variant="secondary" class="flex-1" href={backHref}>{m.go_back()}</Button>
-			<Button class="flex-1" {isLoading} onclick={() => authenticate('normal')}>{m.submit()}</Button>
+			<Button class="flex-1" {isLoading} onclick={() => authenticate('normal')}>{m.submit()}</Button
+			>
 			{#if isExternalClient}
-				<Button 
-					class="flex-1 bg-purple-600 hover:bg-purple-700" 
-					{isLoading} 
+				<Button
+					class="flex-1 bg-purple-600 hover:bg-purple-700"
+					{isLoading}
 					onclick={() => authenticate('incognito')}
 				>
-				Incognito
+					Incognito
 				</Button>
 			{/if}
 		</div>
