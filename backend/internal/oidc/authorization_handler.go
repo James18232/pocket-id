@@ -85,6 +85,7 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 	if permittedClients != "all" && permittedClients != requestedClientID {
 		userID = ""
 		authenticationMethod = ""
+		forceRequiresInteraction := true
 	}
 	authorization, err := h.authorizationService.authorize(ctx, authorizeInput{
 		userID:                        userID,
@@ -103,7 +104,7 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 		return
 	}
 
-	if authorization.RequiresInteraction {
+	if authorization.RequiresInteraction || forceRequiresInteraction {
 		c.Redirect(http.StatusFound, "/interaction?interaction="+authorization.InteractionID)
 		return
 	}
