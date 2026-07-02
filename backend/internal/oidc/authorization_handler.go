@@ -45,11 +45,6 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 	typedAuthenticationTime, _ := authenticationTime.(time.Time)
 	reauthenticationToken, _ := c.Cookie(cookie.ReauthenticationTokenCookieName)
 
-	slog.ErrorContext(ctx, "Checking permitted client for authorization request initial",
-		"permittedClients", permittedClients,
-		"requestedClientID", requestedClientID,
-		"userID", userID,
-	)
 	// A request that resumes an interaction only carries the interaction ID; the original
 	// parameters are restored from the stored session so they never travel through the
 	// front channel.
@@ -77,11 +72,6 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 	}
 	requestedClientID = ar.GetClient().GetID()
 
-	slog.ErrorContext(ctx, "Checking permitted client for authorization request",
-		"permittedClients", permittedClients,
-		"requestedClientID", requestedClientID,
-		"userID", userID,
-	)
 	if permittedClients != "all" && permittedClients != requestedClientID {
 		userID = ""
 		authenticationMethod = ""
