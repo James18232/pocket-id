@@ -44,7 +44,6 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 	authenticationTime, _ := c.Get("authenticationTime")
 	typedAuthenticationTime, _ := authenticationTime.(time.Time)
 	reauthenticationToken, _ := c.Cookie(cookie.ReauthenticationTokenCookieName)
-	forceRequiresInteraction := false
 
 	slog.ErrorContext(ctx, "Checking permitted client for authorization request initial",
 		"permittedClients", permittedClients,
@@ -86,7 +85,6 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 	if permittedClients != "all" && permittedClients != requestedClientID {
 		userID = ""
 		authenticationMethod = ""
-		forceRequiresInteraction = true
 	}
 	authorization, err := h.authorizationService.authorize(ctx, authorizeInput{
 		userID:                        userID,
@@ -105,7 +103,7 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 		return
 	}
 
-	if authorization.RequiresInteraction || forceRequiresInteraction {
+	if authorization.RequiresInteraction {
 		c.Redirect(http.StatusFound, "/interaction?interaction="+authorization.InteractionID)
 		return
 	}
