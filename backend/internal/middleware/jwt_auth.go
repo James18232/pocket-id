@@ -42,51 +42,73 @@ func (m *JwtAuthMiddleware) Add(adminRequired bool) gin.HandlerFunc {
 }
 
 func (m *JwtAuthMiddleware) Verify(c *gin.Context, adminRequired bool) (subject string, isAdmin bool, authenticationMethod string, authenticationTime time.Time, permittedClients string, err error) {
-	// Extract the token from the cookie
+	ctx := c.Request.Context()
+	slog.InfoContext(ctx, "[DEBUG-VERIFY] Middleware execution started", "adminRequired", adminRequired)
+
 	accessToken, err := c.Cookie(cookie.AccessTokenCookieName)
 	if err != nil {
-		// Try to extract the token from the Authorization header if it's not in the cookie
+		slog.InfoContext(ctx, "[DEBUG-VERIFY] Access token cookie not found, attempting Authorization header fallback", "cookieError", err.Error())
 		var ok bool
 		_, accessToken, ok = strings.Cut(c.GetHeader("Authorization"), " ")
 		if !ok || accessToken == "" {
+			slog.WarnContext(ctx, "[DEBUG-VERIFY] Failed: No token found in Cookie or Authorization header")
 			return "", false, "", time.Time{}, "", &common.NotSignedInError{}
 		}
 	}
 
+	slog.InfoContext(ctx, "[DEBUG-VERIFY] Token located successfully", "tokenLength", len(accessToken))
+
 	token, err := m.jwtService.VerifyAccessToken(accessToken)
 	if err != nil {
+		slog.WarnContext(ctx, "[DEBUG-VERIFY] Failed: VerifyAccessToken rejected the token", "error", err.Error())
 		return "", false, "", time.Time{}, "", &common.NotSignedInError{}
 	}
 
 	permittedClients, err = m.jwtService.GetPermittedClients(token)
 	if err != nil {
+		slog.WarnContext(ctx, "[DEBUG-VERIFY] Failed: GetPermittedClients returned an error", "error", err.Error())
 		return "", false, "", time.Time{}, "", &common.NotSignedInError{}
 	}
+	slog.InfoContext(ctx, "[DEBUG-VERIFY] Extracted permittedClients claim", "permittedClients", permittedClients)
 
 	authenticationMethod, err = m.jwtService.GetAuthenticationMethod(token)
 	if err != nil {
+		slog.WarnContext(ctx, "[DEBUG-VERIFY] Failed: GetAuthenticationMethod returned an error", "error", err.Error())
 		return "", false, "", time.Time{}, "", &common.NotSignedInError{}
 	}
 	authenticationTime, _ = token.IssuedAt()
 
 	subject, ok := token.Subject()
 	if !ok {
+		slog.WarnContext(ctx, "[DEBUG-VERIFY] Failed: Subject missing from token claims")
 		_ = c.Error(&common.TokenInvalidError{})
 		return "", false, "", time.Time{}, "", &common.TokenInvalidError{}
 	}
+	slog.InfoContext(ctx, "[DEBUG-VERIFY] Token parsed completely", "subject", subject, "authMethod", authenticationMethod)
 
 	user, err := m.userService.GetUser(c, subject)
 	if err != nil {
+		slog.ErrorContext(ctx, "[DEBUG-VERIFY] Failed: GetUser database/service error", "error", err.Error(), "subject", subject)
 		return "", false, "", time.Time{}, "", &common.NotSignedInError{}
 	}
 
 	if user.Disabled {
+		slog.WarnContext(ctx, "[DEBUG-VERIFY] Failed: Target user is disabled", "subject", subject)
 		return "", false, "", time.Time{}, "", &common.UserDisabledError{}
 	}
 
 	if adminRequired && !user.IsAdmin {
+		slog.WarnContext(ctx, "[DEBUG-VERIFY] Failed: Admin access required but user is not an administrator", "subject", subject)
 		return "", false, "", time.Time{}, "", &common.MissingPermissionError{}
 	}
+
+	slog.InfoContext(ctx, "[DEBUG-VERIFY] Success: Verification completed entirely",
+		"subject", subject,
+		"isAdmin", user.IsAdmin,
+		"authenticationMethod", authenticationMethod,
+		"authenticationTime", authenticationTime,
+		"permittedClients", permittedClients,
+	)
 
 	return subject, user.IsAdmin, authenticationMethod, authenticationTime, permittedClients, nil
 }
