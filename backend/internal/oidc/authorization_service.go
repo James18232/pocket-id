@@ -3,6 +3,7 @@ package oidc
 import (
 	"context"
 	"errors"
+	"log/slog"
 	"net/url"
 	"slices"
 	"strconv"
@@ -473,6 +474,10 @@ func (s *authorizationService) completeInteractionStep(ctx context.Context, inte
 	var response completeInteractionResponse
 	err := withTx(ctx, s.db, func(ctx context.Context) error {
 		var err error
+		slog.InfoContext(ctx, "Starting complete interaction step",
+			"interactionSessionID", interactionSessionID,
+			"userID", userID,
+		)
 		interactionSession, err = s.interactionSessionService.get(ctx, interactionSessionID)
 		if err != nil {
 			return err
