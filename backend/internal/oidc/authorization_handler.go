@@ -63,15 +63,6 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 			return
 		}
 		c.Request.URL.RawQuery = query.Encode()
-	} else {
-		slog.ErrorContext(ctx, "saving query", "permittedClients", permittedClients)
-		if permittedClients != "" {
-			slog.ErrorContext(ctx, "saving query")
-			query := c.Request.URL.Query()
-			query.Set("permittedClients", permittedClients)
-			c.Request.URL.RawQuery = query.Encode()
-			slog.ErrorContext(ctx, "saving query", "new query", c.Request.URL.RawQuery)
-		}
 	}
 
 	// Treat the request as a pushed authorization request only when the request_uri carries the
