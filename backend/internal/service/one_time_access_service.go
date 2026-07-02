@@ -217,6 +217,10 @@ func (s *OneTimeAccessService) ExchangeOneTimeAccessToken(ctx context.Context, t
 		return model.User{}, "", err
 	}
 
+	slog.Info("Successfully generated token and user session",
+		"user", oneTimeAccessToken.User,
+		"accessToken", accessToken,
+	)
 	return oneTimeAccessToken.User, accessToken, nil
 }
 
