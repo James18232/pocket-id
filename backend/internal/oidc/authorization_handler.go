@@ -83,7 +83,9 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 		"requestedClientID", requestedClientID,
 		"userID", userID,
 	)
-
+	if permittedClients != "all" && permittedClients != requestedClientID {
+		userID = ""
+	}
 	authorization, err := h.authorizationService.authorize(ctx, authorizeInput{
 		userID:                        userID,
 		authenticationMethod:          authenticationMethod,
