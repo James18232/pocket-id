@@ -134,23 +134,53 @@ func (h *authorizationHandler) getInteractionSession(c *gin.Context) {
 }
 
 func (h *authorizationHandler) completeInteraction(c *gin.Context) {
+	ctx := c.Request.Context() // Extract context early for logging
 	interactionID := c.Param("id")
+
+	slog.InfoContext(ctx, "Received complete interaction request", "interactionID", interactionID)
+
 	authenticationTime, _ := c.Get("authenticationTime")
 	typedAuthenticationTime, _ := authenticationTime.(time.Time)
 
 	var request completeInteractionRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
+		slog.WarnContext(ctx, "Failed to bind interaction request JSON", "error", err.Error(), "interactionID", interactionID)
 		_ = c.Error(&common.ValidationError{Message: "invalid interaction request"})
 		return
 	}
 
+	// Log that JSON binding succeeded and we have the step details
+	slog.InfoContext(ctx, "Successfully parsed interaction request body",
+		"interactionID", interactionID,
+		"step", request.Step,
+		"userID", c.GetString("userID"),
+	)
+
 	reauthenticationToken, _ := c.Cookie(cookie.ReauthenticationTokenCookieName)
-	response, err := h.authorizationService.completeInteractionStep(c.Request.Context(), interactionID, c.GetString("userID"), request.Step, reauthenticationToken, typedAuthenticationTime, requestMetaFromGin(c))
+
+	slog.InfoContext(ctx, "Calling completeInteractionStep backend service", "interactionID", interactionID)
+
+	response, err := h.authorizationService.completeInteractionStep(
+		ctx,
+		interactionID,
+		c.GetString("userID"),
+		request.Step,
+		reauthenticationToken,
+		typedAuthenticationTime,
+		requestMetaFromGin(c),
+	)
 	if err != nil {
+		// Use ErrorContext here because the core business logic failed
+		slog.ErrorContext(ctx, "Backend service completeInteractionStep failed",
+			"error", err.Error(),
+			"interactionID", interactionID,
+			"step", request.Step,
+		)
 		_ = c.Error(err)
 		return
 	}
 
+	slog.InfoContext(ctx, "Interaction step completed successfully, returning response", "interactionID", interactionID)
 	c.JSON(http.StatusOK, response)
 }
 
