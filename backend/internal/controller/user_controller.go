@@ -532,7 +532,8 @@ func (uc *UserController) exchangeOneTimeAccessTokenHandler(c *gin.Context) {
 	}
 	
 	if useIncognito {
-		cookie.AddAccessTokenCookie(c, 2, token)
+		maxAge := int(uc.appConfigService.GetDbConfig().SessionDuration.AsDurationMinutes().Seconds())
+		cookie.AddAccessTokenCookie(c,maxAge, token)
 	} else {
 		maxAge := int(uc.appConfigService.GetDbConfig().SessionDuration.AsDurationMinutes().Seconds())
 		cookie.AddAccessTokenCookie(c, maxAge, token)
