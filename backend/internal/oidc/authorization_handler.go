@@ -54,7 +54,6 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 	// parameters are restored from the stored session so they never travel through the
 	// front channel.
 	interactionID := c.Query("interaction")
-	slog.ErrorContext(ctx, "integration id check", "interaction id found", interactionID)
 	if interactionID != "" {
 		query, err := h.authorizationService.interactionRequestQuery(ctx, interactionID)
 		if err != nil {
