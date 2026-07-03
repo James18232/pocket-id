@@ -19,24 +19,7 @@ func NewJwtAuthMiddleware(jwtService *service.JwtService, userService *service.U
 	return &JwtAuthMiddleware{jwtService: jwtService, userService: userService}
 }
 
-func (m *JwtAuthMiddleware) Add(adminRequired bool) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		userID, isAdmin, authenticationMethod, authenticationTime, err := m.Verify(c, adminRequired)
-		if err != nil {
-			c.Abort()
-			_ = c.Error(err)
-			return
-		}
-
-		c.Set("userID", userID)
-		c.Set("userIsAdmin", isAdmin)
-		c.Set("authenticationMethod", authenticationMethod)
-		c.Set("authenticationTime", authenticationTime)
-		c.Next()
-	}
-}
-
-func (m *JwtAuthMiddleware) Verify(c *gin.Context, adminRequired bool) (subject string, isAdmin bool, authenticationMethod string, authenticationTime time.Time, err error) {
+func (m *JwtAuthMiddleware) Verify(c *gin.Context, adminRequired bool, includeIsolatedToken bool) (subject string, isAdmin bool, authenticationMethod string, authenticationTime time.Time, permittedClients string, err error) {
 	// Extract the token from the cookie
 	accessToken, err := c.Cookie(cookie.AccessTokenCookieName)
 	if err != nil {
@@ -48,10 +31,16 @@ func (m *JwtAuthMiddleware) Verify(c *gin.Context, adminRequired bool) (subject 
 		}
 	}
 
-	token, err := m.jwtService.VerifyAccessToken(accessToken)
+	token, err := m.jwtService.VerifyAccessTokenWithIsolated(accessToken, includeIsolatedToken)
+	if err != nil {
+		return "", false, "", time.Time{}, "", &common.NotSignedInError{}
+	}
+
+	permittedClients, err = m.jwtService.GetPermittedClients(token)
 	if err != nil {
 		return "", false, "", time.Time{}, apperror.NotSignedIn()
 	}
+
 	authenticationMethod, err = m.jwtService.GetAuthenticationMethod(token)
 	if err != nil {
 		return "", false, "", time.Time{}, apperror.NotSignedIn()
@@ -77,5 +66,5 @@ func (m *JwtAuthMiddleware) Verify(c *gin.Context, adminRequired bool) (subject 
 		return "", false, "", time.Time{}, apperror.MissingPermission()
 	}
 
-	return subject, user.IsAdmin, authenticationMethod, authenticationTime, nil
+	return subject, user.IsAdmin, authenticationMethod, authenticationTime, permittedClients, nil
 }
