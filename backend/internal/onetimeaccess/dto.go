@@ -4,8 +4,9 @@ import (
 	"github.com/pocket-id/pocket-id/backend/internal/utils"
 )
 
-type tokenCreateDto struct {
+type OneTimeAccessTokenCreateDto struct {
 	TTL utils.JSONDuration `json:"ttl" binding:"ttl"`
+	PermittedClientId *string            `json:"permittedClientId"`
 }
 
 type emailAsUnauthenticatedUserDto struct {

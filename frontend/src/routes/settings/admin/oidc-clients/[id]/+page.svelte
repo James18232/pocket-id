@@ -30,6 +30,7 @@
 	import { toast } from 'svelte-sonner';
 	import { slide } from 'svelte/transition';
 	import { backNavigate } from '../../users/navigate-back-util';
+	import LoginCodeModal from '$lib/components/login-code-modal.svelte';
 	import OidcForm from '../oidc-client-form.svelte';
 	import OidcClientPreviewModal from '../oidc-client-preview-modal.svelte';
 	import ApiAccessCard from './api-access-card.svelte';
@@ -46,6 +47,7 @@
 	let scimServiceProvider = $state(data.scimServiceProvider);
 	let showAllDetails = $state(false);
 	let showPreview = $state(false);
+	let showLoginCodeModal: boolean = $state(false);
 
 	const oidcService = new OidcService();
 	const scimService = new ScimService();
@@ -448,3 +450,4 @@
 	</Tabs.Content>
 </Tabs.Root>
 <OidcClientPreviewModal bind:open={showPreview} clientId={client.id} />
+<LoginCodeModal bind:show={showLoginCodeModal} clientId={client.id} />
