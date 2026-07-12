@@ -320,7 +320,7 @@
 				</div>
 			</Card.Content>
 		</Card.Root>
-    <div class="block mt-4">
+    <div>
         <Item.Root variant="card" class="border-border">
             <Item.Media class="text-primary/80">
                 <RectangleEllipsis class="size-5" />
