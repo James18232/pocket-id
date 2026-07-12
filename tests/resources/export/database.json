@@ -288,27 +288,40 @@
 		],
 		"oauth2_jtis": [
 			{
-				"id": "bd0c8bf2-66ec-487a-9dd5-7d9d78d73543",
-				"created_at": "2026-07-22T12:00:00Z",
-				"jti": "cross-database-test-jti",
-				"expires_at": "2099-01-01T00:00:00Z"
-			}
-		],
-		"oauth2_sessions": [
+				"created_at": "2025-11-25T12:39:02Z",
+				"expires_at": "2025-11-25T13:39:02Z",
+				"id": "bf877753-4ea4-4c9c-bbbd-e198bb201cb8",
+				"token": "HPe6k6uiDRRVuAQV",
+				"device_token": null,
+				"user_id": "f4b89dc2-62fb-46bf-9f5f-c34f4eafe93e"
+			},
 			{
-				"id": "551ab785-c830-47d3-8a07-60c9f3bb4859",
-				"created_at": "2026-07-22T12:00:00Z",
-				"kind": "access_token",
-				"key": "cross-database-test-session",
-				"request_id": "cross-database-test-request",
-				"client_id": "3654a746-35d4-4321-ac61-0bdcff2b4055",
-				"access_token_signature": "",
-				"active": true,
-				"request_data": "eyJjbGllbnRfaWQiOiIzNjU0YTc0Ni0zNWQ0LTQzMjEtYWM2MS0wYmRjZmYyYjQwNTUiLCJzZXNzaW9uIjp7InN1YmplY3QiOiJmNGI4OWRjMi02MmZiLTQ2YmYtOWY1Zi1jMzRmNGVhZmU5M2UiLCJpZF90b2tlbl9jbGFpbXMiOnsianRpIjoiY3Jvc3MtZGF0YWJhc2UtdGVzdC1pZC10b2tlbi1qdGkifX19",
-				"expires_at": "2099-01-01T00:00:00Z"
+				"created_at": "2025-11-25T12:39:02Z",
+				"expires_at": "2025-11-25T12:39:01Z",
+				"id": "d3afae24-fe2d-4a98-abec-cf0b8525096a",
+				"token": "YCGDtftvsvYWiXd0",
+				"permitted_client_id": "",
+				"device_token": null,
+				"user_id": "f4b89dc2-62fb-46bf-9f5f-c34f4eafe93e"
+			},
+			{
+				"created_at": "2025-11-25T12:39:02Z",
+				"expires_at": "2025-11-25T13:39:02Z",
+				"id": "defd5164-9d9b-4228-bbce-708e33f49360",
+				"token": "one-time-token",
+				"device_token": null,
+				"user_id": "f4b89dc2-62fb-46bf-9f5f-c34f4eafe93e"
 			}
 		],
-		"interaction_sessions": [
+		"signup_tokens": [
+			{
+				"created_at": "2025-11-25T12:39:02Z",
+				"expires_at": "2025-11-26T12:39:02Z",
+				"id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+				"token": "VALID1234567890A",
+				"usage_count": 0,
+				"usage_limit": 1
+			},
 			{
 				"id": "aaf5dd23-cd1f-4748-a2aa-baa6af94d800",
 				"created_at": "2026-07-22T12:00:00Z",
