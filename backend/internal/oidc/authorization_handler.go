@@ -117,7 +117,6 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 
 func (h *authorizationHandler) getInteractionSession(c *gin.Context) {
 	interactionID := c.Param("id")
-
 	interactionSession, err := h.authorizationService.getInteractionSession(c.Request.Context(), interactionID)
 	if err != nil {
 		_ = c.Error(err)
@@ -131,6 +130,7 @@ func (h *authorizationHandler) completeInteraction(c *gin.Context) {
 	interactionID := c.Param("id")
 	authenticationTime, _ := c.Get("authenticationTime")
 	typedAuthenticationTime, _ := authenticationTime.(time.Time)
+	slog.WarnContext(c, "Hit complete interaction")
 
 	var request completeInteractionRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
