@@ -89,7 +89,9 @@
 	}
 
 	async function completeInteraction(step: InteractionStep, skipRedirect = false) {
+		console.log('completeInteraction started with step:', step);
 		const result = await oidcService.completeAuthorizeInteractionStep(interactionSession.id, step);
+		console.log('Full result object received:', result);
 		if (result.interaction) {
 			interactionSession = result.interaction;
 			if (interactionSession.currentStep == 'reauthenticate') {
