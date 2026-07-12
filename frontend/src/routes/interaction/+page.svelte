@@ -94,6 +94,7 @@
 		console.log('Full result object received:', result);
 		if (result.interaction) {
 			interactionSession = result.interaction;
+			console.log('Result contains an interaction. Current step:', result.interaction.currentStep);
 			if (interactionSession.currentStep == 'reauthenticate') {
 				await handlePipeline();
 			}
@@ -101,6 +102,7 @@
 		}
 
 		if (result.redirectUrl && !skipRedirect) {
+			console.log('Redirecting to URL:', result.redirectUrl);
 			success = true;
 			await new Promise((r) => setTimeout(r, 800));
 			window.location.href = result.redirectUrl;
