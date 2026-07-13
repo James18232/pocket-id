@@ -118,16 +118,13 @@ func (s *authorizationService) authorize(ctx context.Context, input authorizeInp
 		"userID", input.userID,
 		"clientID", client.GetID(),
 	)
+	var interactionSession *InteractionSession
 
-	interactionSession, err := s.boundInteractionSession(ctx, input.interactionID, input.userID, client, input.requester)
-	if err != nil {
-		// 1. Log the exact error and the context inputs that caused it
-		slog.InfoContext(ctx, "boundInteractionSession failed",
-			"error", err,
-			"interactionID", input.interactionID,
-			"userID", input.userID,
-		)
-		return authorizationResult{}, err
+	if !input.forceReauthentication {
+		interactionSession, err = s.boundInteractionSession(ctx, input.interactionID, input.userID, client, input.requester)
+		if err != nil {
+			return authorizationResult{}, err
+		}
 	}
 
 	// Reject authorization requests that require PAR when the request is not a resumed interaction and doesn't have a valid PAR
