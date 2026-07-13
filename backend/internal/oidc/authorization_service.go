@@ -153,7 +153,7 @@ func (s *authorizationService) authorize(ctx context.Context, input authorizeInp
 		return authorizationResult{}, err
 	}
 
-	if input.userID == "" || input.userID == "test" {
+	if input.userID == "" {
 		slog.InfoContext(ctx, "Evaluating login requirement",
 			"prompt", prompt,
 			"promptHasNone", prompt.has("none"),
