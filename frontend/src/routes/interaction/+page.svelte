@@ -64,11 +64,7 @@
 			await completeInteraction(currentStep!);
 		} catch (e) {
 			success = false;
-			if (e instanceof Error && e.message === 'forced steps to restart') {
-				errorMessage = m.try_again();
-			} else {
-				errorMessage = getWebauthnErrorMessage(e);
-			}
+			errorMessage = getWebauthnErrorMessage(e);
 		} finally {
 			isLoading = false;
 		}
@@ -105,6 +101,7 @@
 		}
 		if (!result.interaction && result.redirectUrl) {
 			console.log('Redirecting to URL with false:', result.redirectUrl);
+			errorMessage = m.try_again();
 			success = false;
 			await new Promise((r) => setTimeout(r, 800));
 			window.location.href = result.redirectUrl;
