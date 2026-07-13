@@ -120,6 +120,10 @@ func (s *authorizationService) authorize(ctx context.Context, input authorizeInp
 	)
 	var interactionSession *InteractionSession
 
+	if input.forceReauthentication {
+		return authorizationResult{}, fosite.ErrAccessDenied.WithHint("You are not allowed to access this service.")
+	}
+
 	if !input.forceReauthentication {
 		interactionSession, err = s.boundInteractionSession(ctx, input.interactionID, input.userID, client, input.requester)
 		if err != nil {
