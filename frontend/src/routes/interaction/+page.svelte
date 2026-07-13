@@ -53,7 +53,7 @@
 		isLoading = true;
 		errorMessage = null;
 		try {
-			if (!$userStore || currentStep === 'authenticate') {
+			if (!$userStore) {
 				await authenticate();
 			}
 
@@ -95,8 +95,11 @@
 		if (result.interaction) {
 			interactionSession = result.interaction;
 			console.log('Result contains an interaction. Current step:', result.interaction.currentStep);
-			if (interactionSession.currentStep == 'reauthenticate' || interactionSession.currentStep == 'authenticate') {
+			if (interactionSession.currentStep == 'reauthenticate') {
 				await handlePipeline();
+			}
+			if (interactionSession.currentStep == 'authenticate' && result.redirectUrl) {
+				window.location.href = result.redirectUrl;
 			}
 			return;
 		}
