@@ -102,6 +102,7 @@
 				console.log('authenticate hook triggered - forcing failure state');
 				success = false;
 				isLoading = false;
+				errorMessage =  m.try_again()
 				await new Promise((r) => setTimeout(r, 800));
 				return;
 			}
