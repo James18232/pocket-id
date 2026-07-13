@@ -107,7 +107,7 @@ type authorizeRequest struct {
 func (s *authorizationService) authorize(ctx context.Context, input authorizeInput) (authorizationResult, error) {
 	client := input.requester.GetClient().(Client)
 	prompt := newPromptValues(input.requester.GetRequestForm().Get("prompt"))
-	slog.DebugContext(ctx, "starting authorize function")
+	slog.InfoContext(ctx, "starting authorize function")
 	err := validateClientPKCERequirement(client, input.requester)
 	if err != nil {
 		return authorizationResult{}, err
@@ -145,12 +145,12 @@ func (s *authorizationService) authorize(ctx context.Context, input authorizeInp
 	}
 
 	if input.userID == "" {
-		slog.DebugContext(ctx, "Evaluating empty userID path",
+		slog.InfoContext(ctx, "Evaluating empty userID path",
 			"forceReauthentication", input.forceReauthentication,
 			"hasNonePrompt", prompt.has("none"),
 		)
 		if prompt.has("none") && !input.forceReauthentication {
-			slog.DebugContext(ctx, "hit wrong exit",
+			slog.InfoContext(ctx, "hit wrong exit",
 				"forceReauthentication", input.forceReauthentication,
 			)
 			return authorizationResult{}, fosite.ErrLoginRequired
