@@ -154,14 +154,7 @@ func (s *authorizationService) authorize(ctx context.Context, input authorizeInp
 	}
 
 	if input.userID == "" {
-		slog.InfoContext(ctx, "Evaluating empty userID path",
-			"forceReauthentication", input.forceReauthentication,
-			"hasNonePrompt", prompt.has("none"),
-		)
 		if prompt.has("none") && !input.forceReauthentication {
-			slog.InfoContext(ctx, "hit wrong exit",
-				"forceReauthentication", input.forceReauthentication,
-			)
 			return authorizationResult{}, fosite.ErrLoginRequired
 		}
 
@@ -174,7 +167,10 @@ func (s *authorizationService) authorize(ctx context.Context, input authorizeInp
 		if err != nil {
 			return authorizationResult{}, err
 		}
-
+		slog.InfoContext(ctx, "Interaction session successfully created",
+			"interactionID", interactionSession.ID,
+			"sessionObject", interactionSession,
+		)
 		return authorizationResult{RequiresInteraction: true, InteractionID: interactionSession.ID}, nil
 	}
 
