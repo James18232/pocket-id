@@ -117,6 +117,7 @@ func (s *authorizationService) authorize(ctx context.Context, input authorizeInp
 		"interactionID", input.interactionID,
 		"userID", input.userID,
 		"clientID", client.GetID(),
+		"force reauth", input.forceReauthentication,
 	)
 	var interactionSession *InteractionSession
 
