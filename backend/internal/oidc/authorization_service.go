@@ -160,7 +160,7 @@ func (s *authorizationService) authorize(ctx context.Context, input authorizeInp
 
 		interactionSession, err := s.createInteractionSession(ctx, input.requester, input.requestParams, "", interactionRequirements{
 			AuthenticationRequired:   true,
-			ReauthenticationRequired: prompt.has("login") || client.RequiresReauthentication || input.forceReauthentication,
+			ReauthenticationRequired: prompt.has("login") || client.RequiresReauthentication,
 			AccountSelectionRequired: prompt.has("select_account"),
 			ConsentRequired:          prompt.has("consent"),
 		})
