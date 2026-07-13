@@ -107,7 +107,7 @@ type authorizeRequest struct {
 func (s *authorizationService) authorize(ctx context.Context, input authorizeInput) (authorizationResult, error) {
 	client := input.requester.GetClient().(Client)
 	prompt := newPromptValues(input.requester.GetRequestForm().Get("prompt"))
-
+	slog.DebugContext(ctx, "starting authorize function")
 	err := validateClientPKCERequirement(client, input.requester)
 	if err != nil {
 		return authorizationResult{}, err
