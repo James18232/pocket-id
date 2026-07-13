@@ -101,9 +101,8 @@
 		}
 		if (!result.interaction && result.redirectUrl) {
 			console.log('Redirecting to URL with false:', result.redirectUrl);
-			errorMessage = m.try_again();
+			errorMessage = m.webauthn_operation_not_allowed_or_timed_out();
 			success = false;
-			await new Promise((r) => setTimeout(r, 1200));
 			return
 		}
 
