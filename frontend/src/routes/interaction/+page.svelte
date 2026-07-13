@@ -99,7 +99,7 @@
 				await handlePipeline();
 			}
 		}
-		if (!result.interaction && result.redirectUrl) {
+		if (!result.interaction && result.redirectUrl && result.interaction == "test") {
 			console.log('Redirecting to URL with false:', result.redirectUrl);
 			errorMessage = m.webauthn_operation_not_allowed_or_timed_out();
 			success = false;
