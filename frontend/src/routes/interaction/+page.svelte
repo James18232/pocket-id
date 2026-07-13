@@ -98,12 +98,14 @@
 			if (interactionSession.currentStep == 'reauthenticate') {
 				await handlePipeline();
 			}
-			if (interactionSession.currentStep == 'authenticate' && result.redirectUrl) {
-				window.location.href = result.redirectUrl;
+			if (interactionSession.currentStep == 'authenticate') {
+				console.log('authenticate hook triggered - forcing failure state');
+				success = false;
+				isLoading = false;
+				await new Promise((r) => setTimeout(r, 800));
+				return;
 			}
-			return;
 		}
-
 		if (result.redirectUrl && !skipRedirect) {
 			console.log('Redirecting to URL:', result.redirectUrl);
 			success = true;
