@@ -64,7 +64,11 @@
 			await completeInteraction(currentStep!);
 		} catch (e) {
 			success = false;
-			errorMessage = getWebauthnErrorMessage(e);
+			if (e instanceof Error && e.message === 'forced steps to restart') {
+				errorMessage = m.try_again();
+			} else {
+				errorMessage = getWebauthnErrorMessage(e);
+			}
 		} finally {
 			isLoading = false;
 		}
@@ -99,12 +103,7 @@
 				await handlePipeline();
 			}
 			if (interactionSession.currentStep == 'authenticate') {
-				console.log('authenticate hook triggered - forcing failure state');
-				success = false;
-				isLoading = false;
-				errorMessage =  m.try_again()
-				await new Promise((r) => setTimeout(r, 800));
-				return;
+				throw new Error('forced steps to restart');
 			}
 		}
 		if (result.redirectUrl && !skipRedirect) {
