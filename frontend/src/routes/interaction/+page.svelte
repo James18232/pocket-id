@@ -53,7 +53,7 @@
 		isLoading = true;
 		errorMessage = null;
 		try {
-			if (!$userStore) {
+			if (!$userStore || currentStep === 'authenticate') {
 				await authenticate();
 			}
 
