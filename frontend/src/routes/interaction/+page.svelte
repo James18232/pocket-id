@@ -95,7 +95,7 @@
 		if (result.interaction) {
 			interactionSession = result.interaction;
 			console.log('Result contains an interaction. Current step:', result.interaction.currentStep);
-			if (interactionSession.currentStep == 'reauthenticate') {
+			if (interactionSession.currentStep == 'reauthenticate' || interactionSession.currentStep == 'authenticate') {
 				await handlePipeline();
 			}
 			return;
