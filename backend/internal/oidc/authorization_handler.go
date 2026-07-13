@@ -78,6 +78,7 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 	var forceReauthentication bool
 
 	if permittedClients != "" && permittedClients != requestedClientID {
+		slog.InfoContext(ctx, "resetting userid and setting forced reauthentication")
 		userID = ""
 		forceReauthentication = true
 	}

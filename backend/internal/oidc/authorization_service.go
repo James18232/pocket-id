@@ -112,7 +112,7 @@ func (s *authorizationService) authorize(ctx context.Context, input authorizeInp
 	if err != nil {
 		return authorizationResult{}, err
 	}
-
+	slog.InfoContext(ctx, "starting interaction session check")
 	interactionSession, err := s.boundInteractionSession(ctx, input.interactionID, input.userID, client, input.requester)
 	if err != nil {
 		return authorizationResult{}, err
@@ -122,7 +122,7 @@ func (s *authorizationService) authorize(ctx context.Context, input authorizeInp
 	if client.RequiresPushedAuthorizationRequests && !input.hasPushedAuthorizationRequest && interactionSession == nil {
 		return authorizationResult{}, &common.OidcPARRequiredError{}
 	}
-
+	slog.InfoContext(ctx, "starting resource function")
 	resource, err := input.requester.GetResource()
 	if err != nil {
 		return authorizationResult{}, err
