@@ -103,9 +103,8 @@
 			console.log('Redirecting to URL with false:', result.redirectUrl);
 			errorMessage = m.try_again();
 			success = false;
-			await new Promise((r) => setTimeout(r, 1200));
-			window.location.href = result.redirectUrl;
 		}
+		
 		if (result.redirectUrl && !skipRedirect) {
 			console.log('Redirecting to URL:', result.redirectUrl);
 			success = true;
