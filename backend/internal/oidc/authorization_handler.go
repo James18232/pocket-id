@@ -75,8 +75,11 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 	}
 	requestedClientID := ar.GetClient().GetID()
 
+	var forceReauthentication bool
+
 	if permittedClients != "" && permittedClients != requestedClientID {
 		userID = ""
+		forceReauthentication = true
 	}
 	authorization, err := h.authorizationService.authorize(ctx, authorizeInput{
 		userID:                        userID,
@@ -88,6 +91,7 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 		interactionID:                 interactionID,
 		requestParams:                 authorizeRequestParams(ar),
 		meta:                          requestMetaFromGin(c),
+		forceReauthentication:         forceReauthentication,
 	})
 	if err != nil {
 		slog.ErrorContext(ctx, "Failed to authorize request", "error", err.Error())
@@ -130,7 +134,7 @@ func (h *authorizationHandler) completeInteraction(c *gin.Context) {
 	interactionID := c.Param("id")
 	authenticationTime, _ := c.Get("authenticationTime")
 	typedAuthenticationTime, _ := authenticationTime.(time.Time)
-	slog.WarnContext(c, "Hit complete interaction")
+	slog.WarnContext(c, "Hit compolete interaction")
 
 	var request completeInteractionRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
