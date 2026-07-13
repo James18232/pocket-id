@@ -154,6 +154,12 @@ func (s *authorizationService) authorize(ctx context.Context, input authorizeInp
 	}
 
 	if input.userID == "" {
+		slog.InfoContext(ctx, "Evaluating login requirement",
+			"prompt", prompt,
+			"promptHasNone", prompt.has("none"),
+			"forceReauthentication", input.forceReauthentication,
+		)
+
 		if prompt.has("none") && !input.forceReauthentication {
 			return authorizationResult{}, fosite.ErrLoginRequired
 		}
