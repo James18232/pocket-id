@@ -112,9 +112,21 @@ func (s *authorizationService) authorize(ctx context.Context, input authorizeInp
 	if err != nil {
 		return authorizationResult{}, err
 	}
-	slog.InfoContext(ctx, "starting interaction session check")
+
+	slog.InfoContext(ctx, "starting interaction session check",
+		"interactionID", input.interactionID,
+		"userID", input.userID,
+		"clientID", client.GetID(),
+	)
+
 	interactionSession, err := s.boundInteractionSession(ctx, input.interactionID, input.userID, client, input.requester)
 	if err != nil {
+		// 1. Log the exact error and the context inputs that caused it
+		slog.InfoContext(ctx, "boundInteractionSession failed",
+			"error", err,
+			"interactionID", input.interactionID,
+			"userID", input.userID,
+		)
 		return authorizationResult{}, err
 	}
 
