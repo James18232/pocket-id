@@ -102,9 +102,12 @@
 			if (interactionSession.currentStep == 'reauthenticate') {
 				await handlePipeline();
 			}
-			if (interactionSession.currentStep == 'authenticate') {
-				throw new Error('forced steps to restart');
-			}
+		}
+		if (!result.interaction && result.redirectUrl) {
+			console.log('Redirecting to URL with false:', result.redirectUrl);
+			success = false;
+			await new Promise((r) => setTimeout(r, 800));
+			window.location.href = result.redirectUrl;
 		}
 		if (result.redirectUrl && !skipRedirect) {
 			console.log('Redirecting to URL:', result.redirectUrl);
