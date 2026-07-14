@@ -79,8 +79,8 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 
 	if permittedClients != "" && permittedClients != requestedClientID {
 		slog.InfoContext(ctx, "resetting userid and setting forced reauthentication")
-		userID = ""
-		forceReauthentication = true
+		h.writeAuthorizeError(ctx, c, ar, fosite.ErrAccessDenied.WithHint("You are not allowed to access this service."))
+		return
 	}
 	authorization, err := h.authorizationService.authorize(ctx, authorizeInput{
 		userID:                        userID,
@@ -135,7 +135,7 @@ func (h *authorizationHandler) completeInteraction(c *gin.Context) {
 	interactionID := c.Param("id")
 	authenticationTime, _ := c.Get("authenticationTime")
 	typedAuthenticationTime, _ := authenticationTime.(time.Time)
-	slog.WarnContext(c, "Hit compolete interaction")
+	slog.WarnContext(c, "Hit complete interaction")
 
 	var request completeInteractionRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
