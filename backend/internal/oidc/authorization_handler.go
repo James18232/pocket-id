@@ -78,8 +78,10 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 	var forceReauthentication bool
 
 	if permittedClients != "" && permittedClients != requestedClientID {
-		slog.InfoContext(ctx, "resetting userid and setting forced reauthentication")
-		h.writeAuthorizeError(ctx, c, ar, fosite.ErrAccessDenied.WithHint("You are not allowed to access this service."))
+		slog.InfoContext(ctx, "isolated token not permitted")
+		c.JSON(http.StatusOK, gin.H{
+			"error": "client_not_permitted",
+		})
 		return
 	}
 	authorization, err := h.authorizationService.authorize(ctx, authorizeInput{
