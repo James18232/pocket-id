@@ -79,9 +79,10 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 
 	if permittedClients != "" && permittedClients != requestedClientID {
 		slog.InfoContext(ctx, "isolated token not permitted")
-		c.JSON(http.StatusOK, gin.H{
-			"error": "client_not_permitted",
-		})
+		c.Redirect(http.StatusFound, "/interaction?interaction="+interactionID)
+		//c.JSON(http.StatusOK, gin.H{
+		//	"error": "client_not_permitted",
+		//})
 		return
 	}
 	authorization, err := h.authorizationService.authorize(ctx, authorizeInput{
