@@ -77,7 +77,7 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 
 	// if incorrect isolated-token is presented, return early and deleted the isolated-token
 	if permittedClients != "" && permittedClients != requestedClientID {
-		slog.slog.WarnContext(ctx, "Client mismatch, deleting cookie and redirecting",
+		slog.WarnContext(ctx, "Client mismatch, deleting cookie and redirecting",
 			"permitted", permittedClients,
 			"requested", requestedClientID,
 		)
