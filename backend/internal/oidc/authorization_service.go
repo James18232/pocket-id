@@ -106,32 +106,22 @@ type authorizeRequest struct {
 func (s *authorizationService) authorize(ctx context.Context, input authorizeInput) (authorizationResult, error) {
 	client := input.requester.GetClient().(Client)
 	prompt := newPromptValues(input.requester.GetRequestForm().Get("prompt"))
-	slog.InfoContext(ctx, "starting authorize function")
+
 	err := validateClientPKCERequirement(client, input.requester)
 	if err != nil {
 		return authorizationResult{}, err
 	}
 
-	slog.InfoContext(ctx, "starting interaction session check",
-		"interactionID", input.interactionID,
-		"userID", input.userID,
-		"clientID", client.GetID(),
-		"force reauth", input.forceReauthentication,
-	)
-	var interactionSession *InteractionSession
-
-	if !input.forceReauthentication {
-		interactionSession, err = s.boundInteractionSession(ctx, input.interactionID, input.userID, client, input.requester)
-		if err != nil {
-			return authorizationResult{}, err
-		}
+	interactionSession, err := s.boundInteractionSession(ctx, input.interactionID, input.userID, client, input.requester)
+	if err != nil {
+		return authorizationResult{}, err
 	}
 
 	// Reject authorization requests that require PAR when the request is not a resumed interaction and doesn't have a valid PAR
 	if client.RequiresPushedAuthorizationRequests && !input.hasPushedAuthorizationRequest && interactionSession == nil {
 		return authorizationResult{}, &common.OidcPARRequiredError{}
 	}
-	slog.InfoContext(ctx, "starting resource function")
+
 	resource, err := input.requester.GetResource()
 	if err != nil {
 		return authorizationResult{}, err
@@ -154,10 +144,9 @@ func (s *authorizationService) authorize(ctx context.Context, input authorizeInp
 	}
 
 	if input.userID == "" {
-		slog.InfoContext(ctx, "Evaluating login requirement",
-			"prompt", prompt,
-			"promptHasNone", prompt.has("none"),
-		)
+		if prompt.has("none") {
+			return authorizationResult{}, fosite.ErrLoginRequired
+		}
 
 		interactionSession, err := s.createInteractionSession(ctx, input.requester, input.requestParams, "", interactionRequirements{
 			AuthenticationRequired:   true,
@@ -168,10 +157,7 @@ func (s *authorizationService) authorize(ctx context.Context, input authorizeInp
 		if err != nil {
 			return authorizationResult{}, err
 		}
-		slog.InfoContext(ctx, "Interaction session successfully created",
-			"interactionID", interactionSession.ID,
-			"sessionObject", interactionSession,
-		)
+
 		return authorizationResult{RequiresInteraction: true, InteractionID: interactionSession.ID}, nil
 	}
 
