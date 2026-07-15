@@ -91,7 +91,6 @@ type authorizeInput struct {
 	interactionID                 string
 	requestParams                 map[string]string
 	meta                          requestMeta
-	forceReauthentication         bool
 }
 
 // authorizeRequest is the input enriched with everything the service derives from it.
@@ -120,10 +119,6 @@ func (s *authorizationService) authorize(ctx context.Context, input authorizeInp
 		"force reauth", input.forceReauthentication,
 	)
 	var interactionSession *InteractionSession
-
-	if input.forceReauthentication {
-		return authorizationResult{}, fosite.ErrAccessDenied.WithHint("You are not allowed to access this service.")
-	}
 
 	if !input.forceReauthentication {
 		interactionSession, err = s.boundInteractionSession(ctx, input.interactionID, input.userID, client, input.requester)
@@ -162,12 +157,7 @@ func (s *authorizationService) authorize(ctx context.Context, input authorizeInp
 		slog.InfoContext(ctx, "Evaluating login requirement",
 			"prompt", prompt,
 			"promptHasNone", prompt.has("none"),
-			"forceReauthentication", input.forceReauthentication,
 		)
-
-		if prompt.has("none") && !input.forceReauthentication {
-			return authorizationResult{}, fosite.ErrLoginRequired
-		}
 
 		interactionSession, err := s.createInteractionSession(ctx, input.requester, input.requestParams, "", interactionRequirements{
 			AuthenticationRequired:   true,

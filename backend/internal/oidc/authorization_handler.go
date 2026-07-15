@@ -75,8 +75,6 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 	}
 	requestedClientID := ar.GetClient().GetID()
 
-	var forceReauthentication bool
-
 	// if incorrect isolated-token is presented, return early and deleted the isolated-token
 	if permittedClients != "" && permittedClients != requestedClientID {
 		c.SetCookie(
@@ -101,7 +99,6 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 		interactionID:                 interactionID,
 		requestParams:                 authorizeRequestParams(ar),
 		meta:                          requestMetaFromGin(c),
-		forceReauthentication:         forceReauthentication,
 	})
 	if err != nil {
 		slog.ErrorContext(ctx, "Failed to authorize request", "error", err.Error())
