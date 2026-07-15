@@ -145,6 +145,7 @@ func TestAuthorizationServiceConsentStepLogsNewClientAuthorization(t *testing.T)
 		userID        = "test-user"
 		clientID      = "test-client"
 		interactionID = "test-interaction"
+		permittedClients = ""
 	)
 
 	require.NoError(t, db.Create(&model.User{
@@ -163,7 +164,7 @@ func TestAuthorizationServiceConsentStepLogsNewClientAuthorization(t *testing.T)
 		Parameters:      map[string]string{},
 	}).Error)
 
-	response, err := service.completeInteractionStep(t.Context(), interactionID, userID, interactionStepConsent, "", time.Now().UTC(), requestMeta{})
+	response, err := service.completeInteractionStep(t.Context(), interactionID, userID, permittedClients, interactionStepConsent, "", time.Now().UTC(), requestMeta{})
 	require.NoError(t, err)
 	require.NotEmpty(t, response.RedirectURL)
 
@@ -523,6 +524,7 @@ func TestAuthorizationServiceCompleteInteractionBindsUserToSession(t *testing.T)
 		userID        = "test-user"
 		clientID      = "test-client"
 		interactionID = "test-interaction"
+		permittedClients = ""
 	)
 
 	require.NoError(t, db.Create(&model.User{
@@ -541,7 +543,7 @@ func TestAuthorizationServiceCompleteInteractionBindsUserToSession(t *testing.T)
 		Parameters:      map[string]string{},
 	}).Error)
 
-	response, err := service.completeInteractionStep(t.Context(), interactionID, userID, interactionStepConsent, "", time.Now().UTC(), requestMeta{})
+	response, err := service.completeInteractionStep(t.Context(), interactionID, userID, permittedClients, interactionStepConsent, "", time.Now().UTC(), requestMeta{})
 	require.NoError(t, err)
 	require.NotEmpty(t, response.RedirectURL)
 
@@ -560,6 +562,7 @@ func TestAuthorizationServiceCompleteInteractionSwitchesUserAndResetsRequirement
 		otherUserID   = "other-user"
 		clientID      = "test-client"
 		interactionID = "test-interaction"
+		permittedClients = ""
 	)
 
 	require.NoError(t, db.Create(&model.User{
@@ -586,7 +589,7 @@ func TestAuthorizationServiceCompleteInteractionSwitchesUserAndResetsRequirement
 		},
 	}).Error)
 
-	response, err := service.completeInteractionStep(t.Context(), interactionID, otherUserID, interactionStepSelectAccount, "", time.Now().UTC(), requestMeta{})
+	response, err := service.completeInteractionStep(t.Context(), interactionID, otherUserID, permittedClients, interactionStepSelectAccount, "", time.Now().UTC(), requestMeta{})
 	require.NoError(t, err)
 	require.Empty(t, response.RedirectURL)
 	require.NotNil(t, response.Interaction)
@@ -612,6 +615,7 @@ func TestAuthorizationServiceSelectAccountRecomputesConsentForSelectedUser(t *te
 		initiatorID = "initiator-user"
 		switchedID  = "switched-user"
 		clientID    = "test-client"
+		permittedClients = ""
 	)
 
 	require.NoError(t, db.Create(&model.User{Base: model.Base{ID: initiatorID}, Username: "initiator"}).Error)
@@ -634,7 +638,7 @@ func TestAuthorizationServiceSelectAccountRecomputesConsentForSelectedUser(t *te
 	require.NoError(t, err)
 	require.True(t, authorization.RequiresInteraction)
 
-	response, err := service.completeInteractionStep(t.Context(), authorization.InteractionID, switchedID, interactionStepSelectAccount, "", time.Now().UTC(), requestMeta{})
+	response, err := service.completeInteractionStep(t.Context(), authorization.InteractionID, switchedID, permittedClients, interactionStepSelectAccount, "", time.Now().UTC(), requestMeta{})
 	require.NoError(t, err)
 
 	// The flow must not be granted yet: consent is still pending for the switched-to user.

@@ -114,4 +114,5 @@ export type InteractionSession = {
 export type CompleteInteractionResponse = {
 	interaction?: InteractionSession;
 	redirectUrl?: string;
+	invalidTokenDetected?: boolean;
 };

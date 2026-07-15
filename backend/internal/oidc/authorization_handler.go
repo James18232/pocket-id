@@ -70,8 +70,9 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 		h.writeAuthorizeError(ctx, c, ar, err)
 		return
 	}
-	requestedClientID := ar.GetClient().GetID()
 
+	requestedClientID := ar.GetClient().GetID()
+	// if incorrect isolated-token is presented, reset user to trigger new interaction session
 	if permittedClients != "" && permittedClients != requestedClientID {
 		userID = ""
 	}
@@ -128,6 +129,7 @@ func (h *authorizationHandler) completeInteraction(c *gin.Context) {
 	interactionID := c.Param("id")
 	authenticationTime, _ := c.Get("authenticationTime")
 	typedAuthenticationTime, _ := authenticationTime.(time.Time)
+	permittedClients := c.GetString("permittedClients")
 
 	var request completeInteractionRequest
 	if err := httpserver.BindJSON(c, &request); err != nil {
@@ -136,12 +138,14 @@ func (h *authorizationHandler) completeInteraction(c *gin.Context) {
 	}
 
 	reauthenticationToken, _ := c.Cookie(cookie.ReauthenticationTokenCookieName)
-	response, err := h.authorizationService.completeInteractionStep(c.Request.Context(), interactionID, c.GetString("userID"), request.Step, reauthenticationToken, typedAuthenticationTime, requestMetaFromGin(c))
+	response, err := h.authorizationService.completeInteractionStep(c.Request.Context(), interactionID, c.GetString("userID"), permittedClients, request.Step, reauthenticationToken, typedAuthenticationTime, requestMetaFromGin(c))
 	if err != nil {
 		_ = c.Error(err)
 		return
 	}
-
+	if response.InvalidTokenDetected {
+		c.SetCookie(cookie.AccessTokenCookieName, "", -1, "/", "", true, true)
+	}
 	c.JSON(http.StatusOK, response)
 }
 
