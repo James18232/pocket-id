@@ -77,12 +77,18 @@ func (h *authorizationHandler) authorize(c *gin.Context) {
 
 	var forceReauthentication bool
 
+	// if incorrect isolated-token is presented, return early and deleted the isolated-token
 	if permittedClients != "" && permittedClients != requestedClientID {
-		slog.InfoContext(ctx, "isolated token not permitted")
+		c.SetCookie(
+			"__Host-access_token",
+			"",
+			-1,
+			"/",
+			"",
+			true,
+			true,
+		)
 		c.Redirect(http.StatusFound, "/interaction?interaction="+interactionID)
-		//c.JSON(http.StatusOK, gin.H{
-		//	"error": "client_not_permitted",
-		//})
 		return
 	}
 	authorization, err := h.authorizationService.authorize(ctx, authorizeInput{

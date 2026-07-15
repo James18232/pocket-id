@@ -92,11 +92,6 @@
 		console.log('complete Interaction started with step:', step);
 		const result = await oidcService.completeAuthorizeInteractionStep(interactionSession.id, step);
 		console.log('Full result object received:', result);
-		if (result.error === 'client_not_permitted') {
-			errorMessage = m.webauthn_operation_not_allowed_or_timed_out();
-			success = false;
-			return;
-		}
 		if (result.interaction) {
 			interactionSession = result.interaction;
 			console.log('Result contains an interaction. Current step:', result.interaction.currentStep);
