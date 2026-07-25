@@ -24,6 +24,17 @@
 			href: '/login/alternative/email'
 		});
 	}
+
+	function handleNavigation(e: MouseEvent, href: string) {
+		e.preventDefault();
+
+		const dummy = document.getElementById('ios-keyboard-trap');
+		if (dummy) {
+			dummy.focus();
+		}
+
+		goto(href);
+	}
 </script>
 
 <svelte:head>
@@ -39,11 +50,20 @@
 		<p class="text-muted-foreground mt-3">
 			{m.if_you_do_not_have_access_to_your_passkey_you_can_sign_in_using_one_of_the_following_methods()}
 		</p>
+		<input
+			id="ios-keyboard-trap"
+			type="text"
+			style="position: absolute; opacity: 0; height: 0; width: 0; pointer-events: none;"
+		/>
 		<Item.Group class="mt-5 gap-3">
 			{#each methods as method}
 				<Item.Root variant="outline" class="gap-5">
 					{#snippet child({ props })}
-						<a href={method.href + page.url.search} data-sveltekit-reload {...props}>
+						<a
+							href={method.href + page.url.search}
+							onclick={(e) => handleNavigation(e, method.href + page.url.search)}
+							{...props}
+						>
 							<Item.Media class="text-primary !self-center !translate-y-0">
 								<method.icon class="size-7" />
 							</Item.Media>
