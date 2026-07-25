@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import SignInWrapper from '$lib/components/login-wrapper.svelte';
 	import Logo from '$lib/components/logo.svelte';
