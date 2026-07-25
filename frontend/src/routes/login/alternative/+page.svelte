@@ -43,7 +43,7 @@
 			{#each methods as method}
 				<Item.Root variant="outline" class="gap-5">
 					{#snippet child({ props })}
-						<a href={method.href + page.url.search} {...props}>
+						<a href={method.href + page.url.search} data-sveltekit-reload {...props}>
 							<Item.Media class="text-primary !self-center !translate-y-0">
 								<method.icon class="size-7" />
 							</Item.Media>
