@@ -27,43 +27,43 @@ func (m *JwtAuthMiddleware) Verify(c *gin.Context, adminRequired bool, includeIs
 		var ok bool
 		_, accessToken, ok = strings.Cut(c.GetHeader("Authorization"), " ")
 		if !ok || accessToken == "" {
-			return "", false, "", time.Time{}, apperror.NotSignedIn()
+			return "", false, "", time.Time{}, "", apperror.NotSignedIn()
 		}
 	}
 
 	token, err := m.jwtService.VerifyAccessTokenWithIsolated(accessToken, includeIsolatedToken)
 	if err != nil {
-		return "", false, "", time.Time{}, "", &common.NotSignedInError{}
+		return "", false, "", time.Time{}, "", apperror.NotSignedIn()
 	}
 
 	permittedClients, err = m.jwtService.GetPermittedClients(token)
 	if err != nil {
-		return "", false, "", time.Time{}, apperror.NotSignedIn()
+		return "", false, "", time.Time{}, "", apperror.NotSignedIn()
 	}
 
 	authenticationMethod, err = m.jwtService.GetAuthenticationMethod(token)
 	if err != nil {
-		return "", false, "", time.Time{}, apperror.NotSignedIn()
+		return "", false, "", time.Time{}, "", apperror.NotSignedIn()
 	}
 	authenticationTime, _ = token.IssuedAt()
 
 	subject, ok := token.Subject()
 	if !ok {
 		_ = c.Error(apperror.TokenInvalid())
-		return "", false, "", time.Time{}, apperror.TokenInvalid()
+		return "", false, "", time.Time{}, "", apperror.TokenInvalid()
 	}
 
 	user, err := m.userService.GetUser(c, subject)
 	if err != nil {
-		return "", false, "", time.Time{}, apperror.NotSignedIn()
+		return "", false, "", time.Time{}, "", apperror.NotSignedIn()
 	}
 
 	if user.Disabled {
-		return "", false, "", time.Time{}, apperror.UserDisabled()
+		return "", false, "", time.Time{}, "", apperror.UserDisabled()
 	}
 
 	if adminRequired && !user.IsAdmin {
-		return "", false, "", time.Time{}, apperror.MissingPermission()
+		return "", false, "", time.Time{}, "", apperror.MissingPermission()
 	}
 
 	return subject, user.IsAdmin, authenticationMethod, authenticationTime, permittedClients, nil
