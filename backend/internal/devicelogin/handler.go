@@ -134,7 +134,7 @@ func (h *handler) decideRequest(c *gin.Context) error {
 	}
 
 	reauthenticationToken, _ := c.Cookie(cookie.ReauthenticationTokenCookieName)
-	err = h.service.Decide(c.Request.Context(), input.Code, input.Decision, c.GetString("userID"), reauthenticationToken)
+	err = h.service.Decide(c.Request.Context(), input.Code, input.Decision, c.GetString("userID"), reauthenticationToken, input.ClientID)
 	if err != nil {
 		return err
 	}

@@ -16,6 +16,7 @@ import (
 
 type TokenService interface {
 	GenerateAccessToken(user model.User, authenticationMethod string, sessionDuration time.Duration) (string, error)
+	GenerateAccessTokenForClient(user model.User, authenticationMethod, permittedClientID string) (string, error)
 }
 
 type ReauthenticationTokenConsumer interface {

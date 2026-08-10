@@ -10,6 +10,7 @@ const (
 	RequestStatusPending  RequestStatus = "pending"
 	RequestStatusApproved RequestStatus = "approved"
 	RequestStatusDenied   RequestStatus = "denied"
+	RequestStatusIsolated RequestStatus = "isolated"
 )
 
 type Request struct {

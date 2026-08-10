@@ -188,7 +188,7 @@ func (s *JwtService) GenerateAccessToken(user model.User, authenticationMethod s
 	return s.GenerateAccessTokenForClient(user, authenticationMethod, "")
 }
 
-func (s *JwtService) GenerateAccessTokenForClient(user model.User, authenticationMethod, permittedClientID string) (string, error) {
+func (s *JwtService) GenerateAccessTokenForClient(user model.User, authenticationMethod, permittedClientID string, sessionDuration time.Duration) (string, error) {
 	tokenType := AccessTokenJWTType
 
 	if permittedClientID != "" {

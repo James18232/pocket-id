@@ -131,7 +131,7 @@ func (s *Service) Inspect(ctx context.Context, code string) (VerificationInfo, e
 	}, nil
 }
 
-func (s *Service) Decide(ctx context.Context, code, decision, userID, reauthenticationToken string) error {
+func (s *Service) Decide(ctx context.Context, code, decision, userID, reauthenticationToken, clientID string) error {
 	actorID := normalizeUserCode(code)
 
 	// Consume the fresh passkey proof outside the actor before approving the request
@@ -176,7 +176,7 @@ func (s *Service) Exchange(ctx context.Context, requestID, deviceToken, ipAddres
 		}
 
 		switch result.Status {
-		case RequestStatusApproved:
+		case RequestStatusApproved, RequestStatusIsolated:
 			// Validate the approved user before consuming so lookup failures leave the request untouched
 			user, userDTO, err := s.loadExchangeUser(ctx, result.UserID)
 			if err != nil {
@@ -197,7 +197,11 @@ func (s *Service) Exchange(ctx context.Context, requestID, deviceToken, ipAddres
 			}
 
 			// Mint the session with login-code semantics because the waiting device did not perform WebAuthn
+			if RequestStatusIsolated {
+				accessToken, err := s.signer.GenerateAccessTokenForClient(user, authenticationMethodOneTimePassword, sessionDuration, permittedClientID)
+			else 
 			accessToken, err := s.signer.GenerateAccessToken(user, authenticationMethodOneTimePassword, sessionDuration)
+			}
 			if err != nil {
 				return dto.UserDto{}, "", consume.Status, err
 			}
