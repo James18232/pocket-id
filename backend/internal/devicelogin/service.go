@@ -197,10 +197,10 @@ func (s *Service) Exchange(ctx context.Context, requestID, deviceToken, ipAddres
 			}
 
 			// Mint the session with login-code semantics because the waiting device did not perform WebAuthn
-			if RequestStatusIsolated {
+			if result.Status == RequestStatusIsolated {
 				accessToken, err := s.signer.GenerateAccessTokenForClient(user, authenticationMethodOneTimePassword, sessionDuration, permittedClientID)
-			else 
-			accessToken, err := s.signer.GenerateAccessToken(user, authenticationMethodOneTimePassword, sessionDuration)
+			} else {
+				accessToken, err := s.signer.GenerateAccessToken(user, authenticationMethodOneTimePassword, sessionDuration)
 			}
 			if err != nil {
 				return dto.UserDto{}, "", consume.Status, err
