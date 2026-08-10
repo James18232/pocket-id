@@ -17,7 +17,8 @@ type verificationDto struct {
 
 type decisionDto struct {
 	Code     string `json:"code" binding:"required"`
-	Decision string `json:"decision" binding:"required,oneof=approve deny"`
+	Decision string `json:"decision" binding:"required,oneof=approve deny isolated"`
+	ClientID string `json:"clientID"`
 }
 
 type verificationInfoDto struct {
