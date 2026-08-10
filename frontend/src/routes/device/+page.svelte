@@ -35,7 +35,7 @@
 	let deviceLoginInfo: DeviceLoginVerificationInfo | undefined = $state();
 	let success = $state(false);
 	let deviceLoginOutcome: 'approved' | 'denied' | undefined = $state();
-	let deviceLoginDecision: 'approve' | 'deny' | undefined = $state();
+	let deviceLoginDecision: 'approve' | 'deny' | 'isolated' | undefined = $state();
 	let errorMessage: string | null = $state(null);
 	let authorizationRequired = $state(false);
 	let reauthenticationRequired = $state(false);
@@ -107,7 +107,7 @@
 		await userStore.setUser(user);
 	}
 
-	async function decideDeviceLogin(decision: 'approve' | 'deny') {
+	async function decideDeviceLogin(decision: 'approve' | 'deny' | 'isolated') {
 		isLoading = true;
 		deviceLoginDecision = decision;
 		errorMessage = null;
@@ -115,8 +115,13 @@
 			if (decision === 'approve') {
 				await reauthenticate();
 			}
-			await deviceLoginService.decideRequest(normalizedUserCode, decision);
-			deviceLoginOutcome = decision === 'approve' ? 'approved' : 'denied';
+			if (decision === 'isolated') {
+				await deviceLoginService.decideRequest(normalizedUserCode, decision, deviceInfo?.client.id);
+			}
+			else {
+				await deviceLoginService.decideRequest(normalizedUserCode, decision);
+			}
+			deviceLoginOutcome = decision === 'approve' || decision === 'isolated'? 'approved' : 'denied';
 		} catch (error) {
 			errorMessage = getWebauthnErrorMessage(error);
 		} finally {
@@ -278,6 +283,9 @@
 					{m.deny()}
 				</Button>
 				<Button class="flex-1" {isLoading} onclick={() => decideDeviceLogin('approve')}>
+					{m.approve()}
+				</Button>
+				<Button class="flex-1" {isLoading} onclick={() => decideDeviceLogin('isolated')}>
 					{m.approve()}
 				</Button>
 			{:else}

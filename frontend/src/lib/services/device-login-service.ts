@@ -29,7 +29,7 @@ export default class DeviceLoginService extends APIService {
 		return response.data as DeviceLoginVerificationInfo;
 	};
 
-	decideRequest = async (code: string, decision: DeviceLoginDecision) => {
-		await this.api.post('/device-login/verification/decision', { code, decision });
+	decideRequest = async (code: string, decision: DeviceLoginDecision, clientID?: string) => {
+		await this.api.post('/device-login/verification/decision', { code, decision, clientID });
 	};
 }
