@@ -286,7 +286,7 @@
 					{m.approve()}
 				</Button>
 				<Button class="flex-1" {isLoading} onclick={() => decideDeviceLogin('isolated')}>
-					{m.approve()}
+					isolated
 				</Button>
 			{:else}
 				<Button href="/" class="flex-1" variant="secondary">{m.cancel()}</Button>
